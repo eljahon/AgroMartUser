@@ -1,0 +1,183 @@
+<template>
+  <div class="bg-white border rounded-md shadow-sm">
+    <div class="grid lg:grid-cols-12">
+      <div :class="$route.query.field_id === 'new' ? 'lg:col-span-12' : 'lg:col-span-8'">
+        <div id="map-wrap" class="relative">
+          <leaflet ref="leaflet" height="height: calc(72vh - 0px)" from="field-list" />
+        </div>
+      </div>
+      <div :class="$route.query.field_id !== 'new' ? 'lg:col-span-4' : ''">
+        <div
+          style="height: calc(72vh - 0px)"
+          class="
+            md:m-0
+            m-4
+            bg-white
+            responsive
+            overflow-y-auto
+            scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2
+            scrolling-touch
+            md:col-span-1
+            xl:col-span-1
+            col-span-1
+            border
+            shadow-md
+            rounded-md
+          "
+        >
+          <div class="m-3 relative rounded-md">
+            <div class="absolute inset-y-0 left-0 p-3 flex items-center pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                style="fill: rgba(156, 163, 175, 1); transform: ; -ms-filter: "
+              >
+                <path
+                  d="M19.023,16.977c-0.513-0.488-1.004-0.997-1.367-1.384c-0.372-0.378-0.596-0.653-0.596-0.653l-2.8-1.337 C15.34,12.37,16,10.763,16,9c0-3.859-3.14-7-7-7S2,5.141,2,9s3.14,7,7,7c1.763,0,3.37-0.66,4.603-1.739l1.337,2.8 c0,0,0.275,0.224,0.653,0.596c0.387,0.363,0.896,0.854,1.384,1.367c0.494,0.506,0.988,1.012,1.358,1.392 c0.362,0.388,0.604,0.646,0.604,0.646l2.121-2.121c0,0-0.258-0.242-0.646-0.604C20.035,17.965,19.529,17.471,19.023,16.977z M9,14 c-2.757,0-5-2.243-5-5s2.243-5,5-5s5,2.243,5,5S11.757,14,9,14z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              name="search"
+              :autocomplete="false"
+              class="
+                text-gray-400 text-sm
+                bg-gray-100
+                block
+                border-transparent
+                w-full
+                pl-10
+                sm:text-sm
+                rounded-md
+              "
+              :placeholder="$t('text.searchByFields')"
+            >
+          </div>
+          <div>
+            <div v-if="fields.length > 0 && $route.query.field_id !== 'new'">
+              <div
+                v-for="(field, index) in fields"
+                :key="index"
+                class="border-b hover:bg-gray-100 cursor-pointer"
+                :class="$route.query.field_id === `${field.id}` ? 'bg-green-50' : 'bg-white'"
+              >
+                <div class="grid grid-cols-3">
+                  <div class="col-span-2 block mb-1">
+                    <div
+                      class="px-2 py-1 flex items-center col-span-5"
+                      @click="toChangeLocation(field)"
+                    >
+                      <div class="flex-shrink-0">
+                        <span class="inline-block relative">
+                          <img
+                            class="h-10 w-10 rounded-full"
+                            src="https://i.stack.imgur.com/37DoB.jpg"
+                            alt=""
+                          >
+                        </span>
+                      </div>
+                      <div
+                        class="
+                          flex
+                          items-center
+                          overflow-y-auto
+                          scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2
+                          scrolling-touch
+                        "
+                      >
+                        <div class="grid grid-cols-3 ml-3">
+                          <div class="col-span-2 block mb-1">
+                            <p class="text-sm text-gray-600">
+                              {{ field.name }}
+                            </p>
+                            <div class="flex pt-2 space-x-1 w-full text-xs text-gray-500">
+                              {{ field.hectare }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex justify-end py-2 px-2" @click="toFieldDetail(field)">
+                    <p class="text-xs text-gray-100 bg-gray-400 rounded-xl py-2 px-3">
+                      <i class="bx bx-log-in-circle" />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="align-middle text-center">
+                <span class="rounded-md py-1 px-2 bg-green-200 text-gray-600">
+                  {{ $t('text.youDontHaveFields') }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Lands',
+  components: {},
+  data () {
+    return {
+      fields: []
+    }
+  },
+  watch: {
+    '$route.query.field_id' () {
+      this.getPolygon()
+    }
+  },
+  mounted () {
+    this.fetchFields()
+    if (this.$route.query.field_id) {
+      this.getPolygon()
+    }
+  },
+  methods: {
+    toFieldDetail (field) {
+      this.$router.push({ path: this.localePath(`/my-profile/lands/${field.id}`) })
+    },
+    toChangeLocation (field) {
+      this.$router.push({
+        query: { field_id: field.id }
+      })
+    },
+    async getPolygon () {
+      if (this.$route.query.field_id !== 'new' || this.$route.query.field_id !== '') {
+        await this.$store
+          .dispatch('crud/field/getFieldsById', { id: this.$route.query.field_id })
+          .then((res) => {
+            this.field = res
+            if (this.$refs.leaflet) {
+              this.$refs.leaflet.renderPolygon(res.polygon)
+            }
+          })
+      }
+    },
+    toNewLand () {
+      this.$router.push({ path: this.localePath('/my-profile/lands/new') })
+    },
+    async fetchFields () {
+      await this.$store.dispatch('crud/field/getFields').then((res) => {
+        this.fields = res
+        if (res.length > 0) {
+          this.$router.push({
+            query: { field_id: res[0].id }
+          })
+        }
+      })
+    }
+  }
+}
+</script>
+<style scoped></style>

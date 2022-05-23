@@ -13,17 +13,21 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'preload',
+        as: 'style',
+        onload: "this.onload=null;this.rel='stylesheet'",
+        href: 'https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css'
+      }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: ['~/assets/css/main.css', '@fortawesome/fontawesome-svg-core/styles.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -34,7 +38,15 @@ export default {
     '~/plugins/axios.js',
     { src: '~/plugins/client-libraries', mode: 'client' },
     '~/plugins/tools.js',
-    '~/utils/bridge.js'
+    '~/plugins/storageName.js',
+    '~/plugins/vee-validate',
+    '~/plugins/v-mask',
+    '~/plugins/vueAwesomeCountdown',
+    '~/plugins/fortawesome',
+    '~/plugins/other-libraries',
+    '~/plugins/form-components.js',
+    '~/utils/bridge.js',
+    '~/utils/constants.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -72,14 +84,24 @@ export default {
     ],
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/google-fonts'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/axios'
+    'vue-currency-filter/nuxt',
+    'cookie-universal-nuxt'
   ],
+
+  loading: {
+    name: 'chasing-dots',
+    color: '#ff5638',
+    background: 'white',
+    height: '4px'
+  },
 
   // Nuxt auth
   auth: {
@@ -143,6 +165,20 @@ export default {
     }
   },
 
+  googleFonts: {
+    families: {
+      Inter: [300, 400, 600, 700]
+    },
+    display: 'swap'
+  },
+
+  currencyFilter: {
+    thousandsSeparator: ',',
+    fractionCount: 0,
+    fractionSeparator: '.',
+    symbolSpacing: true
+  },
+
   router: {
     // mode: 'hash',
     middleware: ['auth'],
@@ -152,5 +188,11 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extractCSS: true,
+    transpile: ['vee-validate/dist/rules'],
+    extend (config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    }
   }
 }
