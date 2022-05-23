@@ -223,7 +223,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Sidebar',
   props: {
@@ -246,12 +246,15 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      sidebar: state => state.sidebar.sidebar
+    }),
     ...mapGetters({
-      sidebar: 'sidebar/getSidebar'
+      // sidebar: 'sidebar/getSidebar'
     })
   },
   mounted () {
-    if (this.$route.path.length <= this.name.length + 2 || this.$route.path.search('all') > -1) {
+    if (this.$route.path.length <= this.name.length + 4 || this.$route.path.search('all') > -1) {
       this.menuClicked(this.locale)
     }
   },
@@ -260,7 +263,7 @@ export default {
       this.showMenuInMobile = !this.showMenuInMobile
     },
     menuChildClicked (item, child) {
-      const sidebar = [...this.sidebar]
+      const sidebar = JSON.parse(JSON.stringify(this.sidebar))
       sidebar.forEach((el) => {
         if (el.id === item.id) {
           return item.children.forEach((ch) => {
@@ -275,12 +278,12 @@ export default {
       })
       this.$store.dispatch('sidebar/changeSidebar', sidebar)
       this.$router.push({
-        path: this.localePath(`${this.$route.path.slice(0, this.name.length + 1)}`),
+        path: this.localePath(`${this.$route.path.slice(0, this.name.length + 4)}`),
         query: this.checkQuery(item, child)
       })
     },
     menuWithChildClicked (item) {
-      const sidebar = [...this.sidebar]
+      let sidebar =  JSON.parse(JSON.stringify(this.sidebar))
       sidebar.forEach((menu) => {
         if (menu.id === item.id) {
           menu.current = !menu.current
@@ -295,7 +298,7 @@ export default {
       this.$store.dispatch('sidebar/changeSidebar', sidebar)
     },
     menuClicked (item) {
-      const sidebar = [...this.sidebar]
+      const sidebar = JSON.parse(JSON.stringify(this.sidebar))
       if (item.id === 'all') {
         this.locale.current = !this.locale.current
       }
@@ -308,7 +311,7 @@ export default {
       })
       this.$store.dispatch('sidebar/changeSidebar', sidebar)
       this.$router.push({
-        path: this.localePath(`${this.$route.path.slice(0, this.name.length + 1)}`),
+        path: this.localePath(`${this.$route.path.slice(0, this.name.length + 4)}`),
         query: this.checkQuery(item, {})
       })
     },
