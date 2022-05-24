@@ -4,6 +4,7 @@
         "add": "Қўшиш",
         "ad": "Эълонлар",
         "ads": "Эълонларим",
+        "address": "Манзил",
         "about": "Биз ҳақимизда",
         "admin": "Админ",
         "all": "Барчаси",
@@ -116,6 +117,7 @@
         "z": "Z"
     },
     "text": {
+        "aboutMe": "Мен ҳақимда",
         "addSeason": "Мавсум қўшиш",
         "adsManagement": "Рекламаларни бошқариш",
         "agentList": "Агент рўйхати",
@@ -185,6 +187,7 @@
         "loginSettings": "Тизимга кириш параметрлари",
         "lastNews": "Сўнгги янгиликлар", 
         "landName": "Ернинг номи", 
+        "languageOfSystem": "Тизим тили",
         
         "mainImage": "Асосий расм",
         "mainPhoto": "Асосий расм",
@@ -248,6 +251,7 @@
         "socialNetwork": "Ижтимоий тармоқларимиз",
         "searchInterlocutor": "Чатни танланг",
         "selectConsultantToMessaging": "Консультация олиш учун керакли консультантни танланг",
+        "selectProductToMessaging": "Хабар ёзиш учун маҳсулотлардан бирини танланг",
 
         "timeOfSowing": "Екилган вақти",
         "tradingCategories": "Савдо бўлимлари",

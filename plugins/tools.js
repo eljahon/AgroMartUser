@@ -46,6 +46,11 @@ const tools = {
       (a, [k, v]) => (v === null || v === '' ? a : ((a[k] = v), a)),
       {}
     )
+  },
+  phoneFormatter (phone) {
+    phone = phone.includes('+') > 0 ? phone.substring(1) : phone
+    let match = phone.match(/^(\d{3})(\d{2})(\d{3})(\d{4})$/)
+    return `+(${match[1]})${match[2]} ${match[3]}-${match[4]}`
   }
 }
 export default tools

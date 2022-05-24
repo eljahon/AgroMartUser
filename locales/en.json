@@ -3,6 +3,7 @@
     "word": {
         "add": "Add",
         "ad": "Ads",
+        "address": "Address",
         "ads": "Ads",
         "about": "About",
         "admin": "Admin",
@@ -118,6 +119,7 @@
     },
 
     "text": {
+        "aboutMe": "About me",
         "addSeason": "Add season",
         "adsManagement": "Ads management",
         "agentList": "Agent List",
@@ -186,6 +188,7 @@
         "loginSettings": "Login settings",
         "lastNews": "Last news",
         "landName": "Land name", 
+        "languageOfSystem": "Languange of system",
 
         "mainImage": "Main image",
         "mainPhoto": "Main photo",
