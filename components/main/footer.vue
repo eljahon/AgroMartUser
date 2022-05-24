@@ -269,7 +269,7 @@ export default {
   data () {
     return {
       footer: [
-        { name: 'text.onlineConsultation', active: true, route: '/consultancy' },
+        { name: 'text.onlineConsultation', active: false, route: '/online-consultation' },
         { name: 'text.tradingFloor', active: false, route: '/trading' },
         { name: 'text.lastNews', active: false, route: '/news' },
         { name: 'text.usefulInformation', active: false, route: '/useful-information' },

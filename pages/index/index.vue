@@ -7,7 +7,7 @@
 
           <div v-if="consultation.length > 0">
             <router-link
-              to="/online-consultation"
+              :to="localePath('/online-consultation')"
               class="text-2xl leading-8 font-medium text-gray-600"
             >
               {{ $t("word.consultants") }}
@@ -20,7 +20,7 @@
 
           <!-- Trading floor for desktop -->
           <router-link
-            to="/trading"
+            :to="localePath('/trading')"
             class="md:flex hidden text-gray-600 font-medium text-2xl"
           >
             {{ $t("text.tradingFloor") }}
@@ -157,7 +157,7 @@
             class="block md:hidden col-span-1 h-auto"
           >
             <router-link
-              to="/trading"
+              :to="localePath('/trading')"
               class="text-gray-600 font-medium text-2xl"
             >
               {{ $t("text.tradingFloor") }}
@@ -174,7 +174,7 @@
             class="block md:hidden col-span-1 h-auto"
           >
             <router-link
-              to="/prices"
+              :to="localePath('/prices')"
               class="text-gray-600 font-medium text-2xl"
             >
               {{ $t("text.prices") }}
@@ -188,7 +188,7 @@
         <!-- News for Desktop -->
         <div>
           <div class="lg:col-span-1 lg:grid hidden">
-            <router-link to="/news" class="text-gray-600 font-medium text-2xl">
+            <router-link :to="localePath('/news')" class="text-gray-600 font-medium text-2xl">
               {{ $t("word.news") }}
             </router-link>
             <div v-if="news.length > 0" class="block mt-3">
@@ -300,7 +300,7 @@
           :class="consultation.length === 0 ? 'mt-0' : 'lg:mt-3 mt-0'"
           class="md:block hidden col-span-3 h-auto"
         >
-          <router-link to="/prices" class="text-gray-600 font-medium text-2xl">
+          <router-link :to="localePath('/prices')" class="text-gray-600 font-medium text-2xl">
             {{ $t("text.prices") }}
           </router-link>
           <div class="pt-3 gap-3 relative">
@@ -315,7 +315,7 @@
           class="col-span-3 h-auto"
         >
           <router-link
-            to="/useful-information"
+            :to="localePath('/useful-information')"
             class="text-gray-600 font-medium text-2xl"
           >
             {{ $t("text.usefulInformation") }}
