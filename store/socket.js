@@ -19,6 +19,9 @@ export const mutations = {
     })
     state.messages = payload
   },
+  CLEAR_MESSAGES (state) {
+    state.messages = []
+  },
   SEND_MESSAGE (state, payload) {
     payload.message.isContextMenu = false
     if (payload.status === 'edited') {
@@ -83,6 +86,9 @@ export const actions = {
   },
   setMessage ({ commit }, data) {
     commit('SET_MESSAGE', data)
+  },
+  clearMessages ({ commit }) {
+    commit('CLEAR_MESSAGES')
   },
   sendMessage ({ commit }, payload) {
     commit('SEND_MESSAGE', payload)

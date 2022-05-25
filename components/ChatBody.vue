@@ -536,10 +536,11 @@ export default {
       })
     },
     async socketDisconnector () {
-      socket.emit('leave', {
+      await socket.emit('leave', {
         username: this.currentUser.username,
         room: this.$route.query.room_id
       })
+      await this.$store.dispatch('socket/clearMessages')
       if (process.env.NODE === 'test') {
         this.$snotify.error(`${this.consultant.username} leaved`)
       } else {
