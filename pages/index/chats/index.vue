@@ -476,6 +476,7 @@ export default {
     async fetchActiveRooms () {
       await this.$store
         .dispatch('crud/chats/room/getRooms', {
+          _sort: 'created_at:DESC',
           '_where[0][isCompleted]': false,
           '_where[0][userID.id]': this.currentUser.id
         })
@@ -490,6 +491,7 @@ export default {
     async fetchClosedRooms () {
       await this.$store
         .dispatch('crud/chats/room/getRooms', {
+          _sort: 'created_at:DESC',
           '_where[0][isCompleted]': true,
           '_where[0][userID.id]': this.currentUser.id
         })
