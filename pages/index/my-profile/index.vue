@@ -20,7 +20,7 @@
                   <div class="flex relative cursor-pointer">
                     <img
                       class="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                      :src="avatar"
+                      :src="$tools.getFileUrl(avatar)"
                       alt=""
                     />
                     <div class="bottom-0 text-center absolute w-24 h-12 sm:w-32 sm:h-16 bg-gray-600 bg-opacity-50 rounded-b-full">

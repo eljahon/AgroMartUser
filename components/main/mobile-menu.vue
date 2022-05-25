@@ -214,6 +214,8 @@ export default {
       this.$emit('closePanel', {})
     },
     async logOut () {
+      await localStorage.removeItem('local')
+      await localStorage.removeItem('user_info')
       await this.$auth.logout()
     },
     signIn () {

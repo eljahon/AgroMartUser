@@ -197,10 +197,6 @@ export default {
       )
       this.$root.$once('confirm-code', (item) => {})
     },
-    logout () {
-      this.$snotify.show('Logging out...')
-      this.$auth.logout()
-    },
     openSignUp () {
       this.$emit('close')
       this.$modal.show(

@@ -532,6 +532,8 @@ export default {
     },
     async logOut () {
       this.isProfileOpened = !this.isProfileOpened
+      await localStorage.removeItem('local')
+      await localStorage.removeItem('user_info')
       await this.$auth.logout()
     },
     toUserWork (data) {
