@@ -1,4 +1,4 @@
-export const region = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,

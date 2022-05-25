@@ -1,4 +1,4 @@
-export const productCategory = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,

@@ -1,4 +1,4 @@
-export const user = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,

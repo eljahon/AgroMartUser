@@ -526,9 +526,13 @@ export default {
       formData.append('file', input)
       this.$store.dispatch('media/postMedia', formData).then((res) => {
         Window.store = this.$store
-        Vue.prototype.$snotify.warning(
-          `Message: ${type.search('image') === 0 ? 'chat_image' : 'chat_file'}`
-        )
+        if (process.env.NODE === 'test') {
+          Vue.prototype.$snotify.warning(
+            `Message: ${type.search('image') === 0 ? 'chat_image' : 'chat_file'}`
+          )
+        } else {
+          console.log(`Message: ${type.search('image') === 0 ? 'chat_image' : 'chat_file'}`)
+        }
       })
     },
     async socketDisconnector () {
@@ -536,7 +540,11 @@ export default {
         username: this.currentUser.username,
         room: this.$route.query.room_id
       })
-      this.$snotify.error(`${this.consultant.username} leaved`)
+      if (process.env.NODE === 'test') {
+        this.$snotify.error(`${this.consultant.username} leaved`)
+      } else {
+        console.log(`${this.consultant.username} leaved`)
+      }
     },
     sendMessage () {
       if (this.message.text === 0) {

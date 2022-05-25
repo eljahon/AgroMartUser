@@ -1,4 +1,4 @@
-export const consultationCategory = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,

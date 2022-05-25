@@ -1,4 +1,4 @@
-export const crop = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,

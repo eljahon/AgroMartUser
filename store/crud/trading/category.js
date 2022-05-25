@@ -1,4 +1,4 @@
-export const tradingCategory = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,

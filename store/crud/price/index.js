@@ -1,4 +1,4 @@
-export const price = () => ({
+export const state = () => ({
   loading: false,
   oneLoading: false,
   pending: false,
