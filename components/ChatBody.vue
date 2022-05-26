@@ -112,7 +112,12 @@
           </div>
           <div class="chat-message"></div>
         </div>
-        <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+        <div
+          v-if="
+            currentRoom.isCompleted === false || $route.query.room_id === 'new'
+          "
+          class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0"
+        >
           <div class="relative flex">
             <textarea
               v-model="message.text"
@@ -168,6 +173,22 @@
             </div>
           </div>
         </div>
+        <div v-else class="relative px-5 pb-5 bg-white z-0">
+        <div class="align-middle text-center">
+          <span
+            v-if="state === 'consultant'"
+            class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
+          >
+            {{ $t("text.chatRoomClosed") }}
+          </span>
+          <span
+            v-if="state === 'trading'"
+            class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
+          >
+            {{ $t("text.chatRoomClosed") }}
+          </span>
+        </div>
+      </div>
       </div>
     </div>
     <div
@@ -631,7 +652,7 @@ export default {
         room: this.$route.query.room_id,
       });
       await this.$store.dispatch("socket/clearMessages");
-      console.log(`${this.consultant.username} leaved`)
+      console.log(`${this.consultant.username} leaved`);
     },
     sendMessage() {
       if (this.message.text === 0) {
@@ -648,7 +669,7 @@ export default {
           })
           .then(async (res) => {
             this.currentRoom = res;
-            this.message.roomID = res.id
+            this.message.roomID = res.id;
             await this.$store.dispatch("socket/createRoom", res);
             await this.$bridge.$emit("selected_room", { room_id: res.id });
             await this.sendMessageToSocket({ ...this.message });
@@ -662,7 +683,7 @@ export default {
       }
     },
     sendMessageToSocket(message) {
-      console.log('New message: ', message);
+      console.log("New message: ", message);
       if (message.id) {
         const _id = message.id;
         const data = { ...message };
@@ -681,7 +702,10 @@ export default {
       }
     },
     setMessage() {
-      if (this.currentRoom.unread_message && this.currentRoom.unread_message !== 0) {
+      if (
+        this.currentRoom.unread_message &&
+        this.currentRoom.unread_message !== 0
+      ) {
         this.$store
           .dispatch("crud/static/get", {
             url: "/seen_messages",
