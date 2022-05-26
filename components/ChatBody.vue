@@ -151,6 +151,7 @@
               <button
                 type="button"
                 class="inline-flex items-center mr-1 justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                @click="sendMessage()"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -518,11 +519,9 @@ export default {
           }
         );
         this.$root.$once("send-media-modal", (item) => {
-          console.log('send media modal: ', item)
           if (item !== "canceled") {
             this.message.filePath = item.image
             this.message.text = item.text
-            console.log(this.message)
             this.sendMessage()
           }
         });
@@ -663,6 +662,7 @@ export default {
           this.setMessage();
         });
       } else {
+        console.log(this.message);
         socket.emit("sendMessage", this.message, ({ res, rej }) => {
           this.setMessage();
         });

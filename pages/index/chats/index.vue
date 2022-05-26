@@ -395,6 +395,7 @@
 /* eslint-disable no-console */
 import { mapState } from 'vuex'
 import Breadcrumbs from '~/components/ui/Breadcrumbs.vue'
+import { socket } from "~/plugins/socket.client.js";
 export default {
   name: 'Chat',
   auth: true,
@@ -438,11 +439,15 @@ export default {
     if (Object.keys(this.currentUser).length > 0) {
       this.fetchActiveRooms()
     }
+    if (this.$route.query.room_id && this.$route.query.room_id !== 'new') {
+      this.socketDisconnector().then(() => {
+        console.log('In mounted: ', this.$route.query)
+        console.log(this.$bridge)
+        this.$bridge.$emit('selected_room', { room_id: this.$route.query.room_id })
+      })
+    }
   },
   mounted () {
-    if (this.$route.query.room_id && this.$route.query.room_id !== 'new') {
-      this.connectSocket()
-    }
     this.scrollToEnd()
     this.setWindowWidth()
   },
@@ -450,6 +455,13 @@ export default {
     this.scrollToEnd()
   },
   methods: {
+    async socketDisconnector() {
+      await socket.emit("leave", {
+        username: this.currentUser.username,
+        room: this.$route.query.room_id,
+      });
+      await this.$store.dispatch("socket/clearMessages");
+    },
     scrollToEnd () {
       setTimeout(() => {
         if (this.$refs.chat) {
@@ -483,10 +495,6 @@ export default {
         .then((res) => {
           this.activeRooms = res
         })
-    },
-    connectSocket () {
-      console.log('In mounted: ', this.$route.query)
-      this.$bridge.$emit('selected_room', { room_id: this.$route.query.room_id })
     },
     async fetchClosedRooms () {
       await this.$store

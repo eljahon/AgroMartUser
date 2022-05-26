@@ -517,7 +517,6 @@ export default {
       console.log('Finished chat id: ', res)
     })
     this.$bridge.$on('selected_room', (message) => {
-      console.log(message)
       this.joinToRoom(message)
     })
   },
