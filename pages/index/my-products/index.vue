@@ -24,7 +24,7 @@
             bg-white
             focus:outline-none
           "
-          @click="$router.push('/trading')"
+          @click="$router.push(localePath('/trading'))"
         >
           {{ $t('text.allAds') }}
         </button>
@@ -45,7 +45,7 @@
             bg-green-600
             focus:outline-none
           "
-          @click="$router.push('/my-products/new')"
+          @click="$router.push(localePath('/my-products/new'))"
         >
           {{ $t('word.announcement') }} <span class="ml-2">+</span>
         </button>

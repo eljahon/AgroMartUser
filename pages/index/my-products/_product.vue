@@ -174,7 +174,13 @@
             v-model.trim="$v.trade.tradingpricetype.$model"
             name="pricetype"
             :value="type"
-            class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300"
+            :class="
+              $v.trade.tradingpricetype.length > 0
+                ? 'border-red-400'
+                : $v.trade.tradingpricetype.$model
+                  ? 'border-green-600'
+                  : 'border-gray-500'
+            "
             type="radio"
           >
           <label :for="`pricetype-${type.id}`" class="transform -translate-y-1 ml-1">
@@ -183,32 +189,6 @@
             </div>
           </label>
         </div>
-        <!-- <div v-if="errors.length > 0" class="text-red-600">
-              This is required
-            </div> -->
-        <!-- <div class="max-w-2xl sm:col-span-2 col-span-1 muto sm:w-full">
-              <select
-                v-model="trade.tradingpricetype"
-                :class="
-                  errors.length > 0
-                    ? 'border-red-400'
-                    : trade.tradingpricetype
-                      ? 'border-green-600'
-                      : 'border-gray-500'
-                "
-                class="text-sm text-gray-900 font-normal w-full rounded-md border-gray-300 h-9"
-                name="sellProduct"
-              >
-                <option
-                  v-for="(el, index) in payment"
-                  :key="index"
-                  class="text-sm text-gray-600 font-normal"
-                  :value="el"
-                >
-                  {{ el.namejson[$i18n.locale] }}
-                </option>
-              </select>
-            </div> -->
       </div>
       <div
         v-if="trade.tradingpricetype && trade.tradingpricetype.id === 1"
@@ -220,11 +200,11 @@
         <div class="max-w-2xl sm:col-span-2 col-span-1 muto sm:w-full">
           <input
             id="price"
-            v-model="trade.price"
+            v-model.trim="trade.price"
             :class="
-              trade.price.length > 0
+              !trade.price
                 ? 'border-red-400'
-                : trade.price.$model
+                : trade.price
                   ? 'border-green-600'
                   : 'border-gray-500'
             "
@@ -831,7 +811,6 @@ export default {
     trade: {
       tradingposttype: { required },
       tradingpricetype: { required },
-      // price: { required },
       count: { required },
       unit: { required },
       userregion: { required }
@@ -969,8 +948,12 @@ export default {
         this.$tools.focusI('description')
         return
       }
-      if (!this.$v.trade.tradingpricetype.required) {
+      if (!this.trade.tradingpricetype) {
         this.$tools.focusI('pricetype-1')
+        return
+      }
+      if (this.trade.tradingpricetype && !this.trade.price) {
+        this.$tools.focusI('price')
         return
       }
       if (!this.$v.trade.count.required) {
