@@ -441,8 +441,6 @@ export default {
     }
     if (this.$route.query.room_id && this.$route.query.room_id !== 'new') {
       this.socketDisconnector().then(() => {
-        console.log('In mounted: ', this.$route.query)
-        console.log(this.$bridge)
         this.$bridge.$emit('selected_room', { room_id: this.$route.query.room_id })
       })
     }

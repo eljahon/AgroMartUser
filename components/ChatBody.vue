@@ -63,7 +63,9 @@
                 class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end"
                 @click.prevent.stop="handleClick($event, message)"
               >
-                <div class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white">
+                <div
+                  class="px-4 py-2 rounded-lg inline-block rounded-br-none text-gray-600 text-sm bg-green-100"
+                >
                   <div class="bg-indigo-300 mb-1">
                     <img
                       v-if="message.filePath"
@@ -71,10 +73,7 @@
                       :src="`${$tools.getFileUrl(message.filePath)}`"
                     />
                   </div>
-                  <span
-                    class=""
-                    >{{ message.text }}</span
-                  >
+                  <span class="">{{ message.text }}</span>
                 </div>
               </div>
               <img
@@ -83,9 +82,7 @@
                     ? $tools.getFileUrl(message.senderID.avatar)
                     : require('/assets/images/person/avatar.jpg')
                 "
-                @error="
-                  message.senderID.avatar = require('/assets/images/person/avatar.jpg')
-                "
+                @error="require('/assets/images/person/avatar.jpg')"
                 alt="My profile"
                 class="w-6 h-6 rounded-full order-2"
               />
@@ -96,7 +93,7 @@
               >
                 <div>
                   <span
-                    class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600"
+                    class="px-4 py-2 rounded-lg inline-block rounded-bl-none text-gray-600 bg-orange-50"
                     >{{ message.text }}</span
                   >
                 </div>
@@ -107,9 +104,7 @@
                     ? $tools.getFileUrl(message.receiverID.avatar)
                     : require('/assets/images/person/avatar.jpg')
                 "
-                @error="
-                  message.receiverID.avatar = require('/assets/images/person/avatar.jpg')
-                "
+                @error="require('/assets/images/person/avatar.jpg')"
                 alt="My profile"
                 class="w-6 h-6 rounded-full order-1"
               />
@@ -123,10 +118,10 @@
               v-model="message.text"
               :rows="1"
               :placeholder="$t('text.writeYourMessage')"
-              class="w-full focus:outline-none pr-20 focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3"
+              class="w-full focus:outline-none focus:border-green-300 pr-20 focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3"
               @keyup.enter="sendMessage()"
             />
-            <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+            <div class="absolute right-0 items-center inset-y-0 flex">
               <button
                 type="button"
                 class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
@@ -146,11 +141,17 @@
                     d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
                   ></path>
                 </svg>
-                <input ref="file" type="file" class="hidden" accept="image/*" @change="mediaChange">
+                <input
+                  ref="file"
+                  type="file"
+                  class="hidden"
+                  accept="image/*"
+                  @change="mediaChange"
+                />
               </button>
               <button
                 type="button"
-                class="inline-flex items-center mr-1 justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                class="text-blue-400 hover:bg-blue-300 hover:text-blue-600 inline-flex items-center mr-1 justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out focus:outline-none"
                 @click="sendMessage()"
               >
                 <svg
@@ -500,16 +501,18 @@ export default {
     this.socketDisconnector();
   },
   methods: {
-    mediaChange ({ target }) {
+    mediaChange({ target }) {
       const formData = new FormData();
       // formData.append("name", `image-${target.files[0].size}.jpg`);
       formData.append("files", target.files[0]);
-      console.log(target.files[0], formData);
       this.$store.dispatch("upload/uploadFile", formData).then((res) => {
-        console.log(res);
         this.$modal.show(
           sendMedia,
-          { image: res.data[0].url ? this.$tools.cropUrl(res.data[0].url) : null },
+          {
+            image: res.data[0].url
+              ? this.$tools.cropUrl(res.data[0].url)
+              : null,
+          },
           {
             height: "auto",
             maxWidth: 600,
@@ -520,27 +523,39 @@ export default {
         );
         this.$root.$once("send-media-modal", (item) => {
           if (item !== "canceled") {
-            this.message.filePath = item.image
-            this.message.text = item.text
-            this.sendMessage()
+            this.message.filePath = item.image;
+            this.message.text = item.text;
+            this.sendMessage();
           }
         });
       });
     },
-    uploaderType (data) {
-      this.$store.dispatch('upload/uploadFile', data).then((res) => {
-        this.$store.dispatch('upload/uploadingAction', {
+    uploaderType(data) {
+      this.$store.dispatch("upload/uploadFile", data).then((res) => {
+        this.$store.dispatch("upload/uploadingAction", {
           show: false,
-          percent: 0
-        })
+          percent: 0,
+        });
         this.onClose({
-          large: res.formats && res[0].formats.large ? this.$tools.cropUrl(res[0].formats.large.url) : null,
-          medium: res.formats && res[0].formats.medium ? this.$tools.cropUrl(res[0].formats.medium.url) : null,
-          small: res.formats && res[0].formats.small ? this.$tools.cropUrl(res[0].formats.small.url) : null,
-          thumbnail: res.formats && res[0].formats.thumbnail ? this.$tools.cropUrl(res[0].formats.thumbnail.url) : null,
-          url: res[0].url ? this.$tools.cropUrl(res[0].url) : null
-        })
-      })
+          large:
+            res.formats && res[0].formats.large
+              ? this.$tools.cropUrl(res[0].formats.large.url)
+              : null,
+          medium:
+            res.formats && res[0].formats.medium
+              ? this.$tools.cropUrl(res[0].formats.medium.url)
+              : null,
+          small:
+            res.formats && res[0].formats.small
+              ? this.$tools.cropUrl(res[0].formats.small.url)
+              : null,
+          thumbnail:
+            res.formats && res[0].formats.thumbnail
+              ? this.$tools.cropUrl(res[0].formats.thumbnail.url)
+              : null,
+          url: res[0].url ? this.$tools.cropUrl(res[0].url) : null,
+        });
+      });
     },
     handleClick(event, item) {
       this.$refs.vueSimpleContextMenu.showMenu(event, item);
@@ -616,11 +631,7 @@ export default {
         room: this.$route.query.room_id,
       });
       await this.$store.dispatch("socket/clearMessages");
-      if (process.env.NODE === "test") {
-        this.$snotify.error(`${this.consultant.username} leaved`);
-      } else {
-        console.log(`${this.consultant.username} leaved`);
-      }
+      console.log(`${this.consultant.username} leaved`)
     },
     sendMessage() {
       if (this.message.text === 0) {
@@ -635,24 +646,26 @@ export default {
               isCompleted: false,
             },
           })
-          .then((res) => {
+          .then(async (res) => {
             this.currentRoom = res;
-            this.$store.dispatch("socket/createRoom", res);
-            this.$bridge.$emit("selected_room", { room_id: res.id });
-            this.$router.push({
+            this.message.roomID = res.id
+            await this.$store.dispatch("socket/createRoom", res);
+            await this.$bridge.$emit("selected_room", { room_id: res.id });
+            await this.sendMessageToSocket({ ...this.message });
+            await this.$router.push({
               path: this.localePath("/chats"),
               query: { room_id: res.id, consultant_id: this.consultant.id },
             });
-            this.sendMessageToSocket();
           });
       } else {
-        this.sendMessageToSocket();
+        this.sendMessageToSocket({ ...this.message });
       }
     },
-    sendMessageToSocket() {
-      if (this.message.id) {
-        const _id = this.message.id;
-        const data = { ...this.message };
+    sendMessageToSocket(message) {
+      console.log('New message: ', message);
+      if (message.id) {
+        const _id = message.id;
+        const data = { ...message };
         delete data.id;
         const _message = {
           id: _id,
@@ -662,14 +675,13 @@ export default {
           this.setMessage();
         });
       } else {
-        console.log(this.message);
-        socket.emit("sendMessage", this.message, ({ res, rej }) => {
+        socket.emit("sendMessage", message, ({ res, rej }) => {
           this.setMessage();
         });
       }
     },
     setMessage() {
-      if (this.currentRoom.unread_message !== 0) {
+      if (this.currentRoom.unread_message && this.currentRoom.unread_message !== 0) {
         this.$store
           .dispatch("crud/static/get", {
             url: "/seen_messages",
@@ -683,7 +695,18 @@ export default {
             this.fetchCurrentRoom();
           });
       }
-      this.message.text = "";
+      this.message = {
+        roomID: this.currentRoom.id,
+        senderID: this.currentUser.id,
+        receiverID:
+          this.state === "consultant"
+            ? this.consultant.id
+            : this.product.userid.id,
+        text: "",
+        filePath: null,
+        activityID: null,
+        seen: false,
+      };
     },
     setWindowWidth() {
       this.windowWidth = window.innerWidth;
@@ -698,39 +721,6 @@ export default {
             this.currentRoom = res;
           });
       }
-    },
-    openMediaModal() {
-      this.$modal.show(
-        sendMedia,
-        { name: "SendMedia" },
-        {
-          height: "auto",
-          maxWidth: 600,
-          width: window.innerWidth <= 600 ? window.innerWidth - 30 : 600,
-          scrollable: true,
-          clickToClose: false,
-        }
-      );
-      this.$root.$once("send-media-modal", (item) => {
-        if (item !== "canceled") {
-          const _message = {
-            roomID: parseInt(this.$route.query.room_id),
-            senderID: this.currentUser.id,
-            receiverID: this.consultant.id,
-            text: item.text,
-            filePath: item.image.url,
-            activityID: null,
-            seen: false,
-          };
-          socket.emit("sendMessage", _message, ({ res, rej }) => {
-            if (res) {
-              this.chatMessage = "";
-            } else {
-              console.error(rej);
-            }
-          });
-        }
-      });
     },
     showRatingModal(data) {
       this.$modal.show(
@@ -860,33 +850,5 @@ export default {
   .chat-responsive {
     height: calc(49vh - 0rem);
   }
-}
-#right-click-menu {
-  background: #fafafa;
-  border: 1px solid #bdbdbd;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  display: block;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  width: 250px;
-  z-index: 999999;
-}
-
-#right-click-menu li {
-  border-bottom: 1px solid #e0e0e0;
-  margin: 0;
-  padding: 5px 35px;
-}
-
-#right-click-menu li:last-child {
-  border-bottom: none;
-}
-
-#right-click-menu li:hover {
-  background: #1e88e5;
-  color: #fafafa;
 }
 </style>

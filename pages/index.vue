@@ -6,15 +6,7 @@
           <div>
             <button
               type="button"
-              class="
-                -mx-2
-                rounded-md
-                p-2
-                inline-flex
-                items-center
-                justify-center
-                focus:outline-none
-              "
+              class="-mx-2 rounded-md p-2 inline-flex items-center justify-center focus:outline-none"
               aria-expanded="false"
               @click="openMobileMenu"
             >
@@ -24,7 +16,11 @@
           </div>
           <div class="flex-shrink-0 flex items-center">
             <router-link :to="{ path: localePath('/') }">
-              <img class="block h-10 w-auto" src="~/assets/images/logo.png" alt="Agromart logo">
+              <img
+                class="block h-10 w-auto"
+                src="~/assets/images/logo.png"
+                alt="Agromart logo"
+              />
             </router-link>
           </div>
           <div class="search-container">
@@ -36,11 +32,10 @@
                 type="search"
                 :placeholder="$t('word.search')"
                 @keyup.enter="searching($event.target.value)"
+              />
+              <label class="serch-button searchbutton" for="searchright"
+                ><span class="mglass">&#9906;</span></label
               >
-              <label
-                class="serch-button searchbutton"
-                for="searchright"
-              ><span class="mglass">&#9906;</span></label>
             </form>
           </div>
         </div>
@@ -52,11 +47,15 @@
                   class="block h-10 mr-4 w-auto"
                   src="~/assets/images/logo.png"
                   alt="Agromart logo"
-                >
+                />
               </router-link>
             </div>
-            <div class="relative flex items-between flex-grow focus-within:z-10">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div
+              class="relative flex items-between flex-grow focus-within:z-10"
+            >
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
                 <svg
                   class="h-5 w-5 text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,89 +74,41 @@
                 v-model="query.filter"
                 type="search"
                 name="search"
-                class="
-                  focus:ring-indigo-500 focus:border-indigo-500
-                  md:border-r-0
-                  block
-                  w-full
-                  rounded
-                  md:rounded-r-none
-                  pl-10
-                  sm:text-sm
-                  border-gray-300 border
-                "
+                class="focus:ring-indigo-500 focus:border-indigo-500 md:border-r-0 block w-full rounded md:rounded-r-none pl-10 sm:text-sm border-gray-300 border"
                 :placeholder="$t('text.enterRequest')"
                 @keyup.enter="searching($event.target.value)"
-              >
+              />
             </div>
             <button
-              class="
-                -ml-px
-                w-44
-                relative
-                md:flex
-                hidden
-                items-center
-                justify-center
-                space-x-2
-                px-4
-                py-2
-                border border-gray-300
-                text-sm
-                font-medium
-                rounded-r-md
-                text-gray-700
-                hover:bg-gray-100
-                focus:outline-none
-              "
+              class="-ml-px w-44 relative md:flex hidden items-center justify-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 hover:bg-gray-100 focus:outline-none"
             >
               <div class="inset-y-0 right-3 flex items-center justify-center">
                 <select
                   v-model="query.type"
                   name="option"
-                  class="
-                    h-5
-                    py-0
-                    px-3
-                    border-transparent
-                    bg-transparent
-                    text-gray-500
-                    sm:text-sm
-                    rounded-md
-                  "
+                  class="h-5 py-0 px-3 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
                 >
                   <option value="all">
-                    {{ $t('text.allSections') }}
+                    {{ $t("text.allSections") }}
                   </option>
                   <option value="trading">
-                    {{ $t('text.tradingFloor') }}
+                    {{ $t("text.tradingFloor") }}
                   </option>
                   <option value="news">
-                    {{ $t('text.lastNews') }}
+                    {{ $t("text.lastNews") }}
                   </option>
                   <option value="useful">
-                    {{ $t('text.usefulInformation') }}
+                    {{ $t("text.usefulInformation") }}
                   </option>
                 </select>
               </div>
             </button>
             <button
               type="submit"
-              class="
-                bg-green-600
-                w-20
-                md:block
-                hidden
-                focus:outline-none
-                rounded rounded-l-none
-                p-1.5
-                text-white
-                transform
-                -translate-x-1
-              "
+              class="bg-green-600 w-20 md:block hidden focus:outline-none rounded rounded-l-none p-1.5 text-white transform -translate-x-1"
               @click="searching($event.target.value)"
             >
-              {{ $t('word.search') }}
+              {{ $t("word.search") }}
             </button>
             <lang-switcher class="ml-4 lg:block hidden" />
             <div v-if="isLoggedIn" class="ml-3 relative">
@@ -165,19 +116,7 @@
                 <button
                   id="user-menu-button"
                   type="button"
-                  class="
-                    justify-end
-                    inline-flex
-                    items-center
-                    py-2
-                    text-sm
-                    font-medium
-                    focus:outline-none
-                    border border-transparent
-                    bg-light-gray
-                    text-gray-600
-                    lg:rounded-md lg:hover:bg-gray-50
-                  "
+                  class="justify-end inline-flex items-center py-2 text-sm font-medium focus:outline-none border border-transparent bg-light-gray text-gray-600 lg:rounded-md lg:hover:bg-gray-50"
                   aria-expanded="false"
                   aria-haspopup="true"
                   @click="openProfile"
@@ -190,165 +129,78 @@
                         ? $tools.getFileUrl(currentUser.avatar)
                         : require('/assets/images/person/avatar.jpg')
                     "
-                    @error="currentUser.avatar = require('/assets/images/person/avatar.jpg')"
-                  >
+                    @error="
+                      currentUser.avatar = require('/assets/images/person/avatar.jpg')
+                    "
+                  />
                 </button>
               </div>
               <div
                 v-show="isProfileOpened"
-                class="
-                  z-20
-                  origin-top-right
-                  absolute
-                  right-0
-                  mt-2
-                  w-48
-                  rounded-md
-                  shadow-lg
-                  py-1
-                  bg-white
-                  ring-1 ring-black ring-opacity-5
-                  focus:outline-none
-                "
+                class="z-20 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"
                 tabindex="-1"
               >
                 <div
-                  class="
-                    block
-                    font-medium
-                    hover:bg-gray-100
-                    px-4
-                    py-2
-                    text-sm text-gray-600
-                    cursor-pointer
-                  "
+                  class="block font-medium hover:bg-gray-100 px-4 py-2 text-sm text-gray-600 cursor-pointer"
                   @click="toUserWork({ path: localePath('/my-profile') })"
                 >
                   {{
-                    `${currentUser.name ? currentUser.name : ''} ${
-                      currentUser.surname ? currentUser.surname : ''
+                    `${currentUser.name ? currentUser.name : ""} ${
+                      currentUser.surname ? currentUser.surname : ""
                     }`
                   }}
-                  <br>
-                  <span class="text-xs text-gray-500">ID: {{ currentUser.id }}</span>
+                  <br />
+                  <span class="text-xs text-gray-500"
+                    >ID: {{ currentUser.id }}</span
+                  >
                 </div>
                 <div
-                  class="
-                    block
-                    font-medium
-                    px-4
-                    py-2
-                    text-sm text-gray-600
-                    hover:bg-gray-100
-                    cursor-pointer
-                  "
+                  class="block font-medium px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 cursor-pointer"
                   @click="toUserWork({ path: localePath('/my-products') })"
                 >
-                  {{ $t('word.ads') }}
+                  {{ $t("word.ads") }}
                 </div>
                 <div
-                  class="
-                    block
-                    font-medium
-                    px-4
-                    py-2
-                    text-sm text-gray-600
-                    hover:bg-gray-100
-                    cursor-pointer
-                  "
+                  class="block font-medium px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 cursor-pointer"
                   @click="toUserWork({ path: localePath('/chats') })"
                 >
-                  {{ $t('text.myConsultation') }}
+                  {{ $t("text.myConsultation") }}
                 </div>
                 <div
-                  class="
-                    block
-                    font-medium
-                    px-4
-                    py-2
-                    text-sm text-gray-600
-                    hover:bg-gray-100
-                    cursor-pointer
-                  "
+                  class="block font-medium px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 cursor-pointer"
                   @click="toUserWork({ path: localePath('/my-chats') })"
                 >
-                  {{ $t('text.myChats') }}
+                  {{ $t("text.myChats") }}
                 </div>
                 <div
-                  class="
-                    block
-                    font-medium
-                    px-4
-                    py-2
-                    text-sm text-gray-600
-                    hover:bg-gray-100
-                    cursor-pointer
-                  "
+                  class="block font-medium px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 cursor-pointer"
                 >
-                  {{ $t('word.settings') }}
+                  {{ $t("word.settings") }}
                 </div>
                 <div
-                  class="
-                    block
-                    font-medium
-                    px-4
-                    py-2
-                    text-sm text-red-600
-                    hover:bg-red-100
-                    cursor-pointer
-                  "
+                  class="block font-medium px-4 py-2 text-sm text-red-600 hover:bg-red-100 cursor-pointer"
                   @click="logOut()"
                 >
-                  {{ $t('word.exit') }}
+                  {{ $t("word.exit") }}
                 </div>
               </div>
             </div>
             <div v-else class="flex items-center justify-end">
               <button
-                class="
-                  ml-3
-                  md:inline-flex
-                  hidden
-                  items-center
-                  px-4
-                  py-2
-                  text-sm
-                  font-medium
-                  focus:outline-none
-                  border border-transparent
-                  rounded-md
-                  shadow-sm
-                  bg-light-gray
-                  text-gray-600
-                "
+                class="ml-3 md:inline-flex hidden items-center px-4 py-2 text-sm font-medium focus:outline-none border border-transparent rounded-md shadow-sm bg-light-gray text-gray-600"
                 @click="signIn()"
               >
-                {{ $t('word.login') }}
+                {{ $t("word.login") }}
               </button>
               <button
                 type="button"
-                class="
-                  w-28
-                  ml-6
-                  inline-flex
-                  items-center
-                  px-3
-                  py-2.5
-                  text-sm
-                  font-medium
-                  focus:outline-none
-                  border border-transparent
-                  rounded-md
-                  shadow-sm
-                  text-white
-                  bg-light-orange
-                "
+                class="w-28 ml-6 inline-flex items-center px-3 py-2.5 text-sm font-medium focus:outline-none border border-transparent rounded-md shadow-sm text-white bg-light-orange"
                 @click="signUp()"
               >
-                {{ $t('word.register') }}
+                {{ $t("word.register") }}
               </button>
             </div>
           </div>
@@ -365,7 +217,7 @@
                 :exact="true"
                 :to="{ path: localePath('/online-consultation') }"
               >
-                {{ $t('text.onlineConsultation') }}
+                {{ $t("text.onlineConsultation") }}
               </router-link>
             </div>
             <div>
@@ -380,7 +232,7 @@
                 :exact="true"
                 :to="{ path: localePath('/trading') }"
               >
-                {{ $t('text.tradingFloor') }}
+                {{ $t("text.tradingFloor") }}
               </router-link>
             </div>
             <div>
@@ -395,7 +247,7 @@
                 :exact="true"
                 :to="{ path: localePath('/news') }"
               >
-                {{ $t('text.lastNews') }}
+                {{ $t("text.lastNews") }}
               </router-link>
             </div>
             <div>
@@ -410,7 +262,7 @@
                 :exact="true"
                 :to="{ path: localePath('/useful-information') }"
               >
-                {{ $t('text.usefulInformation') }}
+                {{ $t("text.usefulInformation") }}
               </router-link>
             </div>
             <div>
@@ -425,7 +277,7 @@
                 :exact="true"
                 :to="{ path: localePath('/prices') }"
               >
-                {{ $t('text.prices') }}
+                {{ $t("text.prices") }}
               </router-link>
             </div>
             <div>
@@ -440,7 +292,7 @@
                 :exact="true"
                 :to="{ path: localePath('/videos') }"
               >
-                {{ $t('text.videoLessons') }}
+                {{ $t("text.videoLessons") }}
               </router-link>
             </div>
           </div>
@@ -465,150 +317,156 @@
 
 <script>
 /* eslint-disable no-console */
-import { mapGetters, mapState } from 'vuex'
-import debounce from 'lodash.debounce'
-import Footer from '~/components/main/footer.vue'
-import signInModal from '~/modals/sign-in'
-import signUpModal from '~/modals/sign-up'
-import mobileMenu from '~/components/main/mobile-menu.vue'
-import { socket } from '~/plugins/socket.client.js'
+import { mapGetters, mapState } from "vuex";
+import debounce from "lodash.debounce";
+import Footer from "~/components/main/footer.vue";
+import signInModal from "~/modals/sign-in";
+import signUpModal from "~/modals/sign-up";
+import mobileMenu from "~/components/main/mobile-menu.vue";
+import { socket } from "~/plugins/socket.client.js";
 export default {
-  name: 'Header',
+  name: "Header",
   components: {
-    Footer
+    Footer,
   },
   directives: {
-    debounce
+    debounce,
   },
-  data () {
+  data() {
     return {
       showUserMenu: false,
       isProfileOpened: false,
       query: {
-        filter: '',
-        type: 'all'
-      }
-    }
+        filter: "",
+        type: "all",
+      },
+    };
   },
   computed: {
     ...mapState({
-      isLoggedIn: state => state.auth.loggedIn,
-      currentUser: state => state.auth.user,
-      userConnection: state => state.socket.userConnection,
-      userConnectionStatus: state => state.socket.userConnectionStatus
+      isLoggedIn: (state) => state.auth.loggedIn,
+      currentUser: (state) => state.auth.user,
+      userConnection: (state) => state.socket.userConnection,
+      userConnectionStatus: (state) => state.socket.userConnectionStatus,
     }),
-    ...mapGetters({})
+    ...mapGetters({}),
   },
   watch: {},
-  created () {},
-  mounted () {
-    socket.on('joined', (res) => {
-      console.log('Page: ', res)
-    })
-    socket.on('leaving', (res) => {
-      console.log('PAGE LEAVED SOCKET ROOM:', res)
-    })
-    socket.on('message', (res) => {
-      this.$store.dispatch('socket/sendMessage', res)
-      console.log('Page Received Message Front: ', res)
-    })
-    socket.on('finishedChat', (res) => {
-      this.$store.dispatch('socket/finishedChatId', res)
-      console.log('Finished chat id: ', res)
-    })
-    this.$bridge.$on('selected_room', (message) => {
-      this.joinToRoom(message)
-    })
+  created() {},
+  mounted() {
+    socket.on("joined", (res) => {
+      console.log("Page: ", res);
+    });
+    socket.on("leaving", (res) => {
+      console.log("PAGE LEAVED SOCKET ROOM:", res);
+    });
+    socket.on("message", (res) => {
+      this.$store.dispatch("socket/sendMessage", res);
+      console.log("Page Received Message Front: ", res);
+    });
+    socket.on("finishedChat", (res) => {
+      this.$store.dispatch("socket/finishedChatId", res);
+      console.log("Finished chat id: ", res);
+    });
+    this.$bridge.$on("selected_room", (message) => {
+      this.joinToRoom(message);
+    });
   },
   methods: {
-    searching () {
+    searching() {
       if (this.query.filter && this.query.filter.length >= 3) {
         this.$router.push({
-          path: this.localePath('/filter'),
-          query: this.query
-        })
+          path: this.localePath("/filter"),
+          query: this.query,
+        });
       }
     },
-    async logOut () {
-      this.isProfileOpened = !this.isProfileOpened
-      await localStorage.removeItem('local')
-      await localStorage.removeItem('user_info')
-      await this.$auth.logout()
+    async logOut() {
+      this.isProfileOpened = !this.isProfileOpened;
+      await localStorage.removeItem("local");
+      await localStorage.removeItem("user_info");
+      await this.$auth.logout();
     },
-    toUserWork (data) {
-      this.isProfileOpened = !this.isProfileOpened
+    toUserWork(data) {
+      this.isProfileOpened = !this.isProfileOpened;
       this.$router.push({
-        path: this.localePath(data.path)
-      })
+        path: this.localePath(data.path),
+      });
     },
-    openMobileMenu () {
+    openMobileMenu() {
       this.$showPanel({
         component: mobileMenu,
-        openOn: 'left',
-        width: (window.innerWidth * 3) / 4
-      })
+        openOn: "left",
+        width: (window.innerWidth * 3) / 4,
+      });
     },
-    openProfile () {
-      this.isProfileOpened = !this.isProfileOpened
+    openProfile() {
+      this.isProfileOpened = !this.isProfileOpened;
     },
-    menuClicked (item) {
-      this.$router.push(this.localePath(item.route))
-      return item
+    menuClicked(item) {
+      this.$router.push(this.localePath(item.route));
+      return item;
     },
-    changeRout () {
-      this.$router.push({ path: this.localePath('/videos') })
+    changeRout() {
+      this.$router.push({ path: this.localePath("/videos") });
     },
-    signIn () {
+    signIn() {
       this.$modal.show(
         signInModal,
-        { status: 'sign-in' },
+        { status: "sign-in" },
         {
-          height: 'auto',
+          height: "auto",
           maxWidth: 400,
           width: window.innerWidth <= 350 ? window.innerWidth - 10 : 350,
-          acrollable: true
+          acrollable: true,
         }
-      )
+      );
       // this.$root.$once('user-change-modal', (item) => {
       //   console.log(item)
       // })
     },
-    signUp () {
+    signUp() {
       this.$modal.show(
         signUpModal,
-        { status: 'sign-up' },
+        { status: "sign-up" },
         {
-          height: 'auto',
+          height: "auto",
           maxWidth: 400,
           width: window.innerWidth <= 350 ? window.innerWidth - 10 : 350,
-          acrollable: true
+          acrollable: true,
         }
-      )
+      );
     },
-    joinToRoom (message) {
-      console.log('Join in room: ', { username: this.currentUser.username, room: message.room_id })
+    joinToRoom(message) {
+      console.log("Join in room: ", {
+        username: this.currentUser.username,
+        room: message.room_id,
+      });
       socket.emit(
-        'join',
-        { username: this.currentUser.username, room: message.room_id },
+        "join",
+        {
+          username: this.currentUser.username,
+          room: typeof message.room_id === "string" ? parseInt(message.room_id) : message.room_id,
+        },
         ({ res, rej }) => {
           if (res) {
-            if (this.$route.query.room_id !== 'new') {
+            if (this.$route.query.room_id !== "new") {
               this.$store
-                .dispatch('crud/chats/message/getMessages', {
-                  '_where[0][roomID.id]': this.$route.query.room_id
+                .dispatch("crud/chats/message/getMessages", {
+                  "_where[0][roomID.id]": this.$route.query.room_id,
                 })
                 .then((res) => {
-                  this.$store.dispatch('socket/setMessage', res)
-                })
+                  this.$store.dispatch("socket/setMessage", res);
+                });
             }
           } else {
-            console.error(rej)
+            console.error(rej);
           }
         }
-      )
-    }
-  }
-}
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
