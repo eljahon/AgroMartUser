@@ -49,7 +49,7 @@
         <textarea
           :rows="1"
           v-model="text"
-          placeholder="Write your message!"
+          :placeholder="$t('text.writeYourMessage')"
           class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3"
           @keyup.enter="send()"
         />

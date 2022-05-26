@@ -63,9 +63,16 @@
                 class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end"
                 @click.prevent.stop="handleClick($event, message)"
               >
-                <div>
+                <div class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white">
+                  <div class="bg-indigo-300 mb-1">
+                    <img
+                      v-if="message.filePath"
+                      class="object-cover h-48 w-96"
+                      :src="`${$tools.getFileUrl(message.filePath)}`"
+                    />
+                  </div>
                   <span
-                    class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white"
+                    class=""
                     >{{ message.text }}</span
                   >
                 </div>
@@ -115,7 +122,7 @@
             <textarea
               v-model="message.text"
               :rows="1"
-              placeholder="Write your message!"
+              :placeholder="$t('text.writeYourMessage')"
               class="w-full focus:outline-none pr-20 focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3"
               @keyup.enter="sendMessage()"
             />
@@ -511,10 +518,12 @@ export default {
           }
         );
         this.$root.$once("send-media-modal", (item) => {
+          console.log('send media modal: ', item)
           if (item !== "canceled") {
             this.message.filePath = item.image
             this.message.text = item.text
-            this.sendMessageToSocket()
+            console.log(this.message)
+            this.sendMessage()
           }
         });
       });
