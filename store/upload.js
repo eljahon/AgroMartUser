@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import Vue from 'vue'
+import store from 'vuex'
 export const state = () => ({
   uploading: {
     show: false,
@@ -13,7 +14,15 @@ export const mutations = {
 }
 export const actions = {
   async uploadFile ({ commit }, payload) {
-    const res = await this.$axios.$post('/upload', payload)
+    const token = localStorage.getItem('local')
+    console.log(token);
+    const res = await this.$axios({
+      method: 'post',
+      url: `${process.env.VUE_APP_IMG_URL}upload`,
+      data: payload,
+      authorization: token,
+    })
+    // const res = await this.$axios.$post('/upload', payload)
     return res
   },
   async deleteMedia ({ commit, dispatch }, payload) {

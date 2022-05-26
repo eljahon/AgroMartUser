@@ -1,23 +1,11 @@
 <template>
-  <div class="p-4">
-    <div class="flex justify-between items-start p-5 rounded-t border-b dark:border-gray-600">
-      <h3 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
-        {{ $t('text.sendMedia') }}
-      </h3>
+  <div class="p-1 pb-4">
+    <div
+      class="flex justify-between items-start py-2 px-1 rounded-t border-b dark:border-gray-600"
+    >
       <button
         type="button"
-        class="
-          text-gray-400
-          bg-transparent
-          hover:bg-gray-200 hover:text-gray-900
-          rounded-lg
-          text-sm
-          p-1.5
-          ml-auto
-          inline-flex
-          items-center
-          dark:hover:bg-gray-600 dark:hover:text-white
-        "
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
         data-modal-toggle="defaultModal"
         @click="onClose('canceled')"
       >
@@ -34,136 +22,69 @@
           />
         </svg>
       </button>
+      <h3
+        class="text-xl ml-2 font-semibold text-gray-900 lg:text-2xl dark:text-white"
+      >
+        {{ $t("text.sendPhoto") }}
+      </h3>
+      <button
+        type="button"
+        class="text-green-700 bg-green-100 hover:bg-green-200 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-toggle="defaultModal"
+        @click="send()"
+      >
+        {{ $t("word.send") }}
+      </button>
     </div>
     <div style="position: relative">
       <div class="image_placeholder mb-2">
-        <img v-if="image" :src="$tools.getFileUrl(image.url)" alt="image">
+        <img v-if="image" :src="$tools.getFileUrl(image)" alt="image" />
         <div v-else style="font-size: 144px; font-weight: 100">
           <i class="bx bx-image" />
         </div>
-        <textarea
-          v-if="image"
-          id="comment"
-          v-model="text"
-          rows="4"
-          name="comment"
-          :placeholder="$t('text.messageText')"
-          class="shadow-sm mt-2 focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md"
-        />
       </div>
     </div>
-    <div
-      class="flex p-6 s space-x-2 w-full rounded-b border-t border-gray-200 dark:border-gray-600"
-    >
-      <button
-        class="
-          mr-2
-          inline-flex
-          items-center
-          px-2.5
-          py-1.5
-          border border-transparent
-          text-xs
-          font-medium
-          rounded
-          text-blue-700
-          bg-blue-100
-          hover:bg-blue-200
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-        "
-        @click="openFileUpload()"
-      >
-        {{ $t('word.upload') }}
-      </button>
-      <div style="display: flex">
-        <button
-          class="
-            mr-2
-            inline-flex
-            items-center
-            px-2.5
-            py-1.5
-            border border-transparent
-            text-xs
-            font-medium
-            rounded
-            text-red-700
-            bg-red-100
-            hover:bg-red-200
-            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-          "
-          @click="onClose('canceled')"
-        >
-          {{ $t('word.cancel') }}
-        </button>
-        <button
-          class="
-            mr-2
-            inline-flex
-            items-center
-            px-2.5
-            py-1.5
-            border border-transparent
-            text-xs
-            font-medium
-            rounded
-            text-green-700
-            bg-green-100
-            hover:bg-green-200
-            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
-          "
-          @click="send"
-        >
-          {{ $t('word.send') }}
-        </button>
+    <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+      <div class="relative flex">
+        <textarea
+          :rows="1"
+          v-model="text"
+          placeholder="Write your message!"
+          class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3"
+          @keyup.enter="send()"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
-import imageEditor from '~/modals/image-editor.vue'
+import imageEditor from "~/modals/image-editor.vue";
 export default {
-  name: 'MediaContent',
-  data () {
+  name: "MediaContent",
+  props: {
+    image: String
+  },
+  data() {
     return {
       isOpen: false,
-      image: null,
-      text: ''
-    }
+      text: "",
+    };
   },
   methods: {
-    send () {
+    send() {
       if (this.image) {
         this.onClose({
           image: this.image,
-          text: this.text
-        })
+          text: this.text,
+        });
       }
     },
-    openFileUpload () {
-      this.$modal.show(
-        imageEditor,
-        { type: '4:3' },
-        {
-          height: 'auto',
-          maxWidth: 600,
-          width: window.innerWidth <= 600 ? window.innerWidth - 30 : 600,
-          scrollable: true,
-          clickToClose: false
-        }
-      )
-      this.$root.$once('image-editor-modal', (item) => {
-        if (item !== 'canceled') {
-          this.image = item
-        }
-      })
+    onClose(data) {
+      this.$emit("close");
+      this.$root.$emit("send-media-modal", data);
     },
-    onClose (data) {
-      this.$emit('close')
-      this.$root.$emit('send-media-modal', data)
-    }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

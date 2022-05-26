@@ -3,161 +3,163 @@
     v-if="!loading"
     class="overflow-hidden grid grid-cols-1 gap-4 xl:grid-cols-6"
   >
-    <div class="xl:col-span-4 border rounded-md shadow-md col-span-1">
-      <div
-        style="height: calc(72vh - 0px)"
-        class="flex-1 p-2 justify-between flex flex-col"
-      >
-        <div
-          class="flex sm:items-center justify-between pb-3 pt-0 border-b-2 border-gray-200"
-        >
-          <div class="relative flex items-center space-x-4">
-            <div class="relative">
-              <img
-                :src="
-                  consultant && consultant.avatar
-                    ? $tools.getFileUrl(consultant.avatar)
-                    : require('/assets/images/person/avatar.jpg')
-                "
-                @error="
-                  consultant.avatar = require('/assets/images/person/avatar.jpg')
-                "
-                alt=""
-                class="w-8 sm:w-12 h-8 sm:h-12 rounded-full"
-              />
-            </div>
-            <div class="flex flex-col leading-tight">
-              <div class="text-lg mt-1 flex items-center">
-                <span class="text-gray-700 mr-3">{{
-                  `${consultant.name} ${consultant.surname}`
-                }}</span>
+    <div
+      class="responsive flex xl:col-span-4 border rounded-md shadow-md col-span-1 flex-col min-w-0 flex-1 overflow-hidden"
+    >
+      <div class="flex-1 relative p-5 bg-white">
+        <div class="flex pb-3 mb-2 space-x-3">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <router-link
+                  v-if="windowWidth < 768"
+                  :to="{ path: localePath('/chats') }"
+                >
+                  <i class="bx bx-arrow-back text-xl text-gray-600" />
+                </router-link>
+                <div
+                  v-if="state === 'consultant'"
+                  class="text-lg flex items-center font-medium text-gray-600"
+                >
+                  {{
+                    `${consultant.name ? consultant.name : ""} ${
+                      consultant.surname ? consultant.surname : ""
+                    }`
+                  }}
+                </div>
+                <div
+                  v-if="state === 'trading'"
+                  class="text-lg flex items-center font-medium text-gray-600"
+                >
+                  {{ `${product.title[$i18n.locale]}` }}
+                </div>
               </div>
-              <span
-                v-if="consultant.consultantcategory"
-                class="text-sm text-gray-600"
-                >{{ consultant.consultantcategory.title[$i18n.locale] }}</span
-              >
             </div>
-          </div>
-        </div>
-        <div
-          id="messages"
-          class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
-        >
-          <div
-            v-for="(message, index) in messages"
-            :key="index"
-            class="chat-message"
-          >
             <div
-              v-if="
-                message.senderID
-                  ? message.senderID.id == currentUser.id
-                    ? true
-                    : false
-                  : false
-              "
-              class="flex items-end justify-end"
+              ref="chat"
+              class="chat-responsive chat overflow-y-auto mt-4 scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2 scrolling-touch"
             >
               <div
-                class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end"
-                @click.prevent.stop="handleClick($event, message)"
+                v-for="(mes, index) in messages"
+                :key="index"
+                class="mb-2 flex flex-col"
               >
-                <div>
-                  <span
-                    class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white"
-                    >{{ message.text }}</span
+                <div
+                  v-if="
+                    mes.senderID
+                      ? mes.senderID.id == currentUser.id
+                        ? true
+                        : false
+                      : false
+                  "
+                  class="mx-2 flex justify-end"
+                >
+                  <div
+                    class="block text-gray-600 text-sm bg-green-100 p-2 rounded-md rounded-br-none"
                   >
+                    <div class="bg-indigo-300 mb-1">
+                      <img
+                        v-if="mes.filePath"
+                        class="object-cover h-48 w-96"
+                        :src="`${$tools.getFileUrl(mes.filePath)}`"
+                      />
+                    </div>
+                    <div>
+                      {{ mes.text }}
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="flex justify-start w-auto">
+                  <div v-if="mes.type === 'chat_file'" />
+                  <div
+                    class="block text-gray-600 text-sm bg-orange-50 p-2 rounded-md rounded-bl-none"
+                  >
+                    <div class="bg-indigo-300 mb-1">
+                      <img
+                        v-if="mes.filePath"
+                        class="object-cover h-48 w-96"
+                        :src="`${$tools.getFileUrl(mes.filePath)}`"
+                      />
+                    </div>
+                    {{ mes.text }}
+                  </div>
                 </div>
               </div>
-              <img
-                :src="
-                  message.senderID && message.senderID.avatar
-                    ? $tools.getFileUrl(message.senderID.avatar)
-                    : require('/assets/images/person/avatar.jpg')
-                "
-                @error="
-                  message.senderID.avatar = require('/assets/images/person/avatar.jpg')
-                "
-                alt="My profile"
-                class="w-6 h-6 rounded-full order-2"
-              />
-            </div>
-            <div v-else class="flex items-end">
-              <div
-                class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
-              >
-                <div>
-                  <span
-                    class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600"
-                    >{{ message.text }}</span
-                  >
-                </div>
-              </div>
-              <img
-                :src="
-                  message.receiverID && message.receiverID.avatar
-                    ? $tools.getFileUrl(message.receiverID.avatar)
-                    : require('/assets/images/person/avatar.jpg')
-                "
-                @error="
-                  message.receiverID.avatar = require('/assets/images/person/avatar.jpg')
-                "
-                alt="My profile"
-                class="w-6 h-6 rounded-full order-1"
-              />
             </div>
           </div>
-          <div class="chat-message"></div>
         </div>
-        <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
-          <div class="relative flex">
-            <textarea
-              v-model="message.text"
-              :rows="1"
-              placeholder="Write your message!"
-              class="w-full focus:outline-none pr-20 focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-md py-3"
-              @keyup.enter="sendMessage()"
-            />
-            <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
-              <button
-                type="button"
-                class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                @click="$refs.file.click()"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  class="h-6 w-6 text-gray-600"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                  ></path>
-                </svg>
-                <input ref="file" type="file" class="hidden" accept="image/*" @change="mediaChange">
-              </button>
-              <button
-                type="button"
-                class="inline-flex items-center mr-1 justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="h-6 w-6 ml-2 transform rotate-90"
-                >
-                  <path
-                    d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
-                  ></path>
-                </svg>
-              </button>
+      </div>
+      <div
+        v-if="
+          currentRoom.isCompleted === false || $route.query.room_id === 'new'
+        "
+        class="relative px-5 pb-5 bg-white z-0"
+      >
+        <div class="w-full mb-3 h-12">
+          <div class="bottom-0 right-0 left-0 text-gray-400">
+            <div
+              class="flex bg-gray-100 rounded-md items-center px-4 mb-2 py-1"
+            >
+              <div class="flex mt-2 items-center" @click="openMediaModal">
+                <label for="chatFile">
+                  <div
+                    class="text-2xl -mt-1 ml-2 cursor-pointer text-gray-500 hover:text-blue-400"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="m12.644 5.833-5.489 5.489a1.667 1.667 0 1 0 2.357 2.357l5.346-5.489a3.333 3.333 0 0 0-4.714-4.714L4.798 8.964a5 5 0 1 0 7.072 7.071l5.214-5.202"
+                        stroke="#4B5563"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </label>
+              </div>
+              <div class="flex-grow">
+                <div class="px-4 py-2 w-full">
+                  <div class="text-gray-600 focus-within:text-gray-800">
+                    <textarea
+                      v-model="message.text"
+                      :rows="1"
+                      type="message"
+                      class="w-full py-3 text-sm rounded-full pl-5 focus:outline-none"
+                      :placeholder="$t('text.enterRequest')"
+                      autocomplete="off"
+                      @keyup.enter="sendMessage()"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="flex-none text-right mt-2" @click="sendMessage()">
+                <i
+                  class="text-2xl bx bx-send -mt-1 cursor-pointer text-blue-400 hover:text-blue-600"
+                />
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div v-else class="relative px-5 pb-5 bg-white z-0">
+        <div class="align-middle text-center">
+          <span
+            v-if="state === 'consultant'"
+            class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
+          >
+            {{ $t("text.chatRoomClosed") }}
+          </span>
+          <span
+            v-if="state === 'trading'"
+            class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
+          >
+            {{ $t("text.chatRoomClosed") }}
+          </span>
         </div>
       </div>
     </div>
@@ -175,10 +177,10 @@
                     ? $tools.getFileUrl(consultant.avatar)
                     : require('/assets/images/person/avatar.jpg')
                 "
+                class="w-16 h-16 rounded-full"
                 @error="
                   consultant.avatar = require('/assets/images/person/avatar.jpg')
                 "
-                class="w-16 h-16 rounded-full"
               />
             </div>
           </div>
@@ -492,47 +494,13 @@ export default {
     this.socketDisconnector();
   },
   methods: {
-    mediaChange ({ target }) {
-      const formData = new FormData();
-      // formData.append("name", `image-${target.files[0].size}.jpg`);
-      formData.append("files", target.files[0]);
-      console.log(target.files[0], formData);
-      this.$store.dispatch("upload/uploadFile", formData).then((res) => {
-        console.log(res);
-        this.$modal.show(
-          sendMedia,
-          { image: res.data[0].url ? this.$tools.cropUrl(res.data[0].url) : null },
-          {
-            height: "auto",
-            maxWidth: 600,
-            width: window.innerWidth <= 600 ? window.innerWidth - 30 : 600,
-            scrollable: true,
-            clickToClose: false,
-          }
-        );
-        this.$root.$once("send-media-modal", (item) => {
-          if (item !== "canceled") {
-            this.message.filePath = item.image
-            this.message.text = item.text
-            this.sendMessageToSocket()
-          }
-        });
-      });
-    },
-    uploaderType (data) {
-      this.$store.dispatch('upload/uploadFile', data).then((res) => {
-        this.$store.dispatch('upload/uploadingAction', {
-          show: false,
-          percent: 0
-        })
-        this.onClose({
-          large: res.formats && res[0].formats.large ? this.$tools.cropUrl(res[0].formats.large.url) : null,
-          medium: res.formats && res[0].formats.medium ? this.$tools.cropUrl(res[0].formats.medium.url) : null,
-          small: res.formats && res[0].formats.small ? this.$tools.cropUrl(res[0].formats.small.url) : null,
-          thumbnail: res.formats && res[0].formats.thumbnail ? this.$tools.cropUrl(res[0].formats.thumbnail.url) : null,
-          url: res[0].url ? this.$tools.cropUrl(res[0].url) : null
-        })
-      })
+    sendMediaMessage({ target }) {
+      console.log(target);
+      // const formData = new FormData();
+      // formData.append("file", target.files[0]);
+
+      // this.channel.sendMessage(formData);
+      // target.value = "";
     },
     handleClick(event, item) {
       this.$refs.vueSimpleContextMenu.showMenu(event, item);
@@ -776,26 +744,6 @@ export default {
 </script>
 
 <style scoped>
-.scrollbar-w-2::-webkit-scrollbar {
-  width: 0.25rem;
-  height: 0.25rem;
-}
-
-.scrollbar-track-blue-lighter::-webkit-scrollbar-track {
-  --bg-opacity: 1;
-  background-color: #f7fafc;
-  background-color: rgba(247, 250, 252, var(--bg-opacity));
-}
-
-.scrollbar-thumb-blue::-webkit-scrollbar-thumb {
-  --bg-opacity: 1;
-  background-color: #edf2f7;
-  background-color: rgba(237, 242, 247, var(--bg-opacity));
-}
-
-.scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
-  border-radius: 0.25rem;
-}
 @media screen and (min-width: 370px) {
   .responsive {
     height: calc(60vh - 0rem);
