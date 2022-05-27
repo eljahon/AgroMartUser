@@ -120,6 +120,7 @@
     },
 
     "text": {
+        "accessToTelegram": "Access to Telegram",
         "aboutMe": "About me",
         "addSeason": "Add season",
         "adsManagement": "Ads management",
@@ -257,6 +258,7 @@
         "selectConsultantToMessaging": "Select one of the consultants to write the message",
         "selectProductToMessaging": "Select one of the products to write the message",
 
+        "telegramText": "Follow the latest news, announcements and price news on Agromart telegram channel",
         "timeOfSowing": "Time of sowing",
         "tradingCategories": "Trading categories",
         "tradingList": "Trading list",
