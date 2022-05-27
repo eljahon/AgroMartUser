@@ -505,7 +505,7 @@ export default {
         this.regions = res
       })
       await this.$store.dispatch('crud/price/category/getProductCategory').then((res) => {
-        this.categories = res
+        this.categories = [ ...res ]
         this.categories.push({
           created_at: '2022-02-03T15:09:03.142Z',
           id: null,

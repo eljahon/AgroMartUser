@@ -7,6 +7,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import telegramModal from '~/modals/telegram'
 export default {
   components: {},
   data () {
@@ -29,6 +30,7 @@ export default {
   },
   mounted () {
     this.setUserToStore()
+    this.openTelegramModal()
   },
   methods: {
     // eslint-disable-next-line require-await
@@ -39,6 +41,21 @@ export default {
         await this.$auth.ctx.app.$axios.setHeader('Authorization', this.token)
         await this.$auth.setUser(this.currentUser)
       }
+    },
+    openTelegramModal () {
+      this.$modal.show(
+        telegramModal,
+        { status: 'telegram' },
+        {
+          height: 'auto',
+          maxWidth: 500,
+          width: window.innerWidth <= 450 ? window.innerWidth - 10 : 450,
+          scrollable: false
+        }
+      )
+      this.$root.$once('telegram-modal', (item) => {
+        // this.fetchSeason()
+      })
     }
   }
 }
