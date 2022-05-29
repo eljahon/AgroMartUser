@@ -117,7 +117,7 @@ export default {
   },
   created () {
     if (process.browser) {
-      //   window.L = require('leaflet')
+      window.L = require('leaflet')
       require('leaflet-draw/dist/leaflet.draw')
       // if (window.L) {
       //   window.GeoRasterLayer = require('georaster-layer-for-leaflet')

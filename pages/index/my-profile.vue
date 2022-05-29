@@ -78,7 +78,7 @@
             </p>
           </router-link>
           <router-link
-            v-show="false"
+            v-show="true"
             :to="{ path: localePath('/my-profile/lands') }"
             :class="
               $route.path === '/my-profile/lands' || $route.path === '/my-profile/lands/'
