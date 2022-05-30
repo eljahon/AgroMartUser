@@ -92,6 +92,7 @@
         "regions": "Области",
         "remember": "Запомнить",
         "russian": "Русский",
+        "rating": "Оценить",
 
         "send": "Отправить",
         "search": "Найти",
@@ -159,8 +160,8 @@
         "editSeason": "Изменить сезон",
         "enterRequest": "Введите ваш запрос",
         "enterLandName": "Введите название поле",
-        
         "evaluateAdvice": "Оцените данные вам советы",
+        "evaluateTheAdvice": "Оцените совет",
 
         "fromSum": "От 10 000 (сум)",
         "forgotYourPassword": "Забыли пароль?",

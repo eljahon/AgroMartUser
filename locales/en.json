@@ -91,6 +91,7 @@
         "regions": "Regions",
         "remember": "Remember",
         "russian": "In russian",
+        "rating": "Rating",
 
         "send": "Send",
         "search": "Search",
@@ -162,8 +163,8 @@
         "editSeason": "Edit season",
         "enterRequest": "Enter your request",
         "enterLandName": "Enter land name",
-
         "evaluateAdvice": "Evaluate the advice given to you",
+        "evaluateTheAdvice": "Evaluate the advice",
         
         "fromSum": "From 10 000 (sum)",
         "forgotYourPassword": "Forgot your password?",

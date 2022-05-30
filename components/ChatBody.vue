@@ -119,9 +119,6 @@
         <div
           v-if="
             !currentRoom.isCompleted ||
-            (currentRoom.isCompleted &&
-              currentRoom.unread_message > 0 &&
-              currentRoom.rate0to5 === null) ||
             $route.query.room_id === 'new'
           "
           class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0"
@@ -181,7 +178,24 @@
             </div>
           </div>
         </div>
-        <div v-else class="relative px-5 pb-5 bg-white z-0">
+        <div v-else-if="currentRoom.rate0to5 === null" class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+          <div class="flex items-center justify-between">
+            <div>{{ $t('text.evaluateTheAdvice') }}</div>
+            <div class="flex ml-4 items-center">
+              <star-rating v-model="advice.rating" />
+            </div>
+            <div class="items-center flex">
+              <button
+                type="button"
+                class="text-green-400 bg-green-100 hover:bg-geen-300 px-2 py-1 hover:text-green-600 inline-flex items-center mr-1 justify-center rounded-md transition duration-500 ease-in-out focus:outline-none"
+                @click="toRating()"
+              >
+                {{ $t('word.rating') }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
           <div class="align-middle text-center">
             <span
               v-if="state === 'consultant'"
@@ -405,6 +419,10 @@ export default {
   data() {
     return {
       chatMessage: "",
+      advice: {
+        rating: 0,
+        comment: ''
+      },
       message: {
         roomID: null,
         senderID: null,
@@ -453,12 +471,12 @@ export default {
       this.socketDisconnector().then(() => {
         this.fetchData().then(() => {
           this.fetchCurrentRoom().then(() => {
-            if (
-              this.currentRoom.isCompleted === true &&
-              this.currentRoom.rate0to5 === null
-            ) {
-              this.showRatingModal();
-            }
+            // if (
+            //   this.currentRoom.isCompleted === true &&
+            //   this.currentRoom.rate0to5 === null
+            // ) {
+            //   this.showRatingModal();
+            // }
             this.loading = false;
             this.message = {
               roomID: this.currentRoom.id,
@@ -481,12 +499,12 @@ export default {
         this.socketDisconnector().then(() => {
           this.fetchData().then(() => {
             this.fetchCurrentRoom().then(() => {
-              if (
-                this.currentRoom.isCompleted === true &&
-                this.currentRoom.rate0to5 === null
-              ) {
-                this.showRatingModal();
-              }
+              // if (
+              //   this.currentRoom.isCompleted === true &&
+              //   this.currentRoom.rate0to5 === null
+              // ) {
+              //   this.showRatingModal();
+              // }
             });
           });
         });
@@ -503,12 +521,12 @@ export default {
   mounted() {
     this.fetchData().then(() => {
       this.fetchCurrentRoom().then(() => {
-        if (
-          this.currentRoom.isCompleted === true &&
-          this.currentRoom.rate0to5 === null
-        ) {
-          this.showRatingModal();
-        }
+        // if (
+        //   this.currentRoom.isCompleted === true &&
+        //   this.currentRoom.rate0to5 === null
+        // ) {
+        //   this.showRatingModal();
+        // }
         this.setWindowWidth();
         this.loading = false;
         this.message = {
@@ -661,6 +679,21 @@ export default {
       });
       await this.$store.dispatch("socket/clearMessages");
       console.log(`${this.consultant.username} leaved`);
+    },
+    async toRating () {
+      this.currentRoom.rate0to5 = this.rating
+      this.currentRoom.feedback = this.comment
+      await this.$store
+        .dispatch('crud/chats/room/updateRooms', {
+          id: this.currentRoom.id,
+          data: { ...this.currentRoom }
+        })
+        .then((res) => {
+          this.fetchCurrentRoom()
+        })
+        .catch((error) => {
+          this.$snotify.error(error.response.data.detail)
+        })
     },
     sendMessage() {
       if (this.message.text === 0) {
