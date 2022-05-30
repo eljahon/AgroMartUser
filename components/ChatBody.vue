@@ -29,7 +29,7 @@
             <div class="flex flex-col leading-tight">
               <div class="text-lg mt-1 flex items-center">
                 <span class="text-gray-700 mr-3">{{
-                  `${consultant.name} ${consultant.surname}`
+                  `${consultant.name ? consultant.name : ''} ${consultant.surname ? consultant.surname : ''}`
                 }}</span>
               </div>
               <span
@@ -91,17 +91,21 @@
               <div
                 class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start"
               >
-                <div>
-                  <span
-                    class="px-4 py-2 rounded-lg inline-block rounded-bl-none text-gray-600 bg-orange-50"
-                    >{{ message.text }}</span
-                  >
+                <div class="px-4 py-2 rounded-lg inline-block rounded-bl-none text-gray-600 bg-orange-50">
+                  <div class="bg-indigo-300 mb-1">
+                    <img
+                      v-if="message.filePath"
+                      class="object-cover h-48 w-96"
+                      :src="`${$tools.getFileUrl(message.filePath)}`"
+                    />
+                  </div>
+                  <span>{{ message.text }}</span>
                 </div>
               </div>
               <img
                 :src="
-                  message.receiverID && message.receiverID.avatar
-                    ? $tools.getFileUrl(message.receiverID.avatar)
+                  message.senderID && message.senderID.avatar
+                    ? $tools.getFileUrl(message.senderID.avatar)
                     : require('/assets/images/person/avatar.jpg')
                 "
                 @error="require('/assets/images/person/avatar.jpg')"
@@ -114,7 +118,11 @@
         </div>
         <div
           v-if="
-            currentRoom.isCompleted === false || $route.query.room_id === 'new'
+            !currentRoom.isCompleted ||
+            (currentRoom.isCompleted &&
+              currentRoom.unread_message > 0 &&
+              currentRoom.rate0to5 === null) ||
+            $route.query.room_id === 'new'
           "
           class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0"
         >
@@ -174,21 +182,21 @@
           </div>
         </div>
         <div v-else class="relative px-5 pb-5 bg-white z-0">
-        <div class="align-middle text-center">
-          <span
-            v-if="state === 'consultant'"
-            class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
-          >
-            {{ $t("text.chatRoomClosed") }}
-          </span>
-          <span
-            v-if="state === 'trading'"
-            class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
-          >
-            {{ $t("text.chatRoomClosed") }}
-          </span>
+          <div class="align-middle text-center">
+            <span
+              v-if="state === 'consultant'"
+              class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
+            >
+              {{ $t("text.chatRoomClosed") }}
+            </span>
+            <span
+              v-if="state === 'trading'"
+              class="rounded-md py-1 px-2 bg-green-200 text-gray-600"
+            >
+              {{ $t("text.chatRoomClosed") }}
+            </span>
+          </div>
         </div>
-      </div>
       </div>
     </div>
     <div

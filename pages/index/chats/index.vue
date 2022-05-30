@@ -483,15 +483,33 @@ export default {
       this.$bridge.$emit('selected_room', { room_id: data.id })
       this.$router.push({ query: { room_id: data.id, consultant_id: data.consultantID.id } })
     },
+    setRooms(data, status) {
+      if (status === 'active') {
+        data.forEach(element => {
+          if (element.isCompleted === false || (element.isCompleted && element.unread_message > 0 && element.rate0to5 === null)) { 
+            this.activeRooms.push(element)
+          }
+        });
+      } else {
+        data.forEach(element => {
+          if (element.isCompleted && element.unread_message === 0) { 
+            this.closedRooms.push(element)
+          }
+        });
+      }
+    },
     async fetchActiveRooms () {
       await this.$store
         .dispatch('crud/chats/room/getRooms', {
           _sort: 'created_at:DESC',
-          '_where[0][isCompleted]': false,
-          '_where[0][userID.id]': this.currentUser.id
+          '_where[0][userID.id]': this.currentUser.id,
+          // '_where[_or][0][unread_message_gt]': 0,
+          // '_where[_or][1][isCompleted]': false,
         })
         .then((res) => {
-          this.activeRooms = res
+          this.activeRooms = []
+          this.setRooms(res, 'active')
+          // this.activeRooms = res
         })
     },
     async fetchClosedRooms () {
@@ -502,7 +520,8 @@ export default {
           '_where[0][userID.id]': this.currentUser.id
         })
         .then((res) => {
-          this.closedRooms = res
+          this.closedRooms = []
+          this.setRooms(res, 'closed')
         })
     }
   }
