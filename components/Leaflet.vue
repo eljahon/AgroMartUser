@@ -20,16 +20,23 @@
       @click="addNewField()"
     >
       {{ $t('text.newField') }}
-      <svg
-        class="ml-2 -mr-0.5 h-4 w-4"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-      </svg>
+      <span class="ml-2">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 7.5V10m0 0v2.5m0-2.5h2.5M10 10H7.5m10 0a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0z"
+            stroke="rgba(249, 115, 22, var(--tw-text-opacity))"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
     </button>
     <button
       v-if="from === 'field-list' && drawEnabled"
