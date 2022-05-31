@@ -1,6 +1,9 @@
 <template>
   <div class="rounded-sm h-full">
-    <div class="grid grid-cols-3 gap-0">
+    <div v-if="$route.path.includes('new') > 0">
+      <leaflet ref="leaflet" from="field-datail" height="height: 24rem" />
+    </div>
+    <div v-else class="grid grid-cols-3 gap-0">
       <div id="map-wrap" class="md:col-span-1 col-span-3 relative">
         <leaflet ref="leaflet" height="height: 24rem" from="field-detail" />
       </div>
@@ -11,7 +14,7 @@
               class="text-xs text-gray-500 bg-gray-200 font-medium flex items-center rounded-md p-2"
               @click="isEditable = !isEditable"
             >
-              {{ isEditable ? $t('word.cancel') : $t('word.edit') }}
+              {{ isEditable ? $t("word.cancel") : $t("word.edit") }}
               <i v-if="!isEditable" class="bx bx-edit text-gray-600 pl-1.5" />
             </button>
             <div class="flex items-center space-x-5">
@@ -19,47 +22,38 @@
                 v-if="isEditable"
                 class="text-xs text-red-500 bg-red-100 font-medium flex items-center rounded-md p-2"
               >
-                {{ $t('word.delete') }}
+                {{ $t("word.delete") }}
                 <i class="bx bx-trash text-red-600 pl-1.5" />
               </button>
               <button
-                class="
-                  text-xs text-white
-                  bg-light-orange
-                  font-medium
-                  flex
-                  items-center
-                  rounded-md
-                  px-5
-                  py-2
-                "
+                class="text-xs text-white bg-light-orange font-medium flex items-center rounded-md px-5 py-2"
               >
-                {{ $t('word.back') }}
+                {{ $t("word.back") }}
               </button>
             </div>
           </div>
           <div v-if="isEditable" class="grid grid-cols-2 gap-4 px-3 pb-3">
             <div class="block">
               <p class="text-sm text-gray-700 font-medium">
-                {{ $t('text.landName') }}
+                {{ $t("text.landName") }}
               </p>
               <input
                 v-model="field.name"
                 type="text"
                 placeholder="Mening yerim 2"
                 class="rounded-md border border-gray-300 mt-1 w-full"
-              >
+              />
             </div>
             <div class="block">
               <p class="text-sm text-gray-700 font-medium">
-                {{ $t('text.groupName') }}
+                {{ $t("text.groupName") }}
               </p>
               <input
                 v-model="field.group_name"
                 type="text"
                 placeholder="Ko'rsatilmagan"
                 class="rounded-md border border-gray-300 mt-1 w-full"
-              >
+              />
             </div>
           </div>
         </div>
@@ -67,17 +61,29 @@
           <table class="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                  {{ $t('text.cropName') }}
+                <th
+                  scope="col"
+                  class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                >
+                  {{ $t("text.cropName") }}
                 </th>
-                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                  {{ $t('text.seasonYear') }}
+                <th
+                  scope="col"
+                  class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                >
+                  {{ $t("text.seasonYear") }}
                 </th>
-                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                  {{ $t('text.timeOfSowing') }}
+                <th
+                  scope="col"
+                  class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                >
+                  {{ $t("text.timeOfSowing") }}
                 </th>
-                <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                  {{ $t('text.harvestTime') }}
+                <th
+                  scope="col"
+                  class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                >
+                  {{ $t("text.harvestTime") }}
                 </th>
               </tr>
             </thead>
@@ -88,16 +94,24 @@
                     {{ season.crop_id.name }}
                   </div>
                 </td>
-                <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">
+                <td
+                  class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"
+                >
                   {{ season.year }}
                 </td>
-                <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">
+                <td
+                  class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"
+                >
                   {{ season.planteddate }}
                 </td>
-                <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">
+                <td
+                  class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"
+                >
                   {{ season.harvesteddate }}
                 </td>
-                <td class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell">
+                <td
+                  class="hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"
+                >
                   <div class="flex items-center gap-1">
                     <button
                       class="text-xs text-gray-500 bg-gray-200 font-medium flex items-center rounded-md p-2"
@@ -119,22 +133,10 @@
         </div>
         <div class="flex items-center justify-center">
           <button
-            class="
-              flex
-              items-center
-              bg-green-100
-              border-transparent
-              text-green-700
-              font-medium
-              text-sm
-              py-2
-              px-5
-              rounded-md
-              mt-6
-            "
+            class="flex items-center bg-green-100 border-transparent text-green-700 font-medium text-sm py-2 px-5 rounded-md mt-6"
             @click="toNewSeason()"
           >
-            {{ $t('text.newSeason') }}
+            {{ $t("text.newSeason") }}
             <span class="ml-2">
               <svg
                 width="20"
@@ -155,12 +157,21 @@
           </button>
         </div>
       </div>
-      <div v-if="isEditable" class="col-start-3 mt-5 flex justify-end space-x-5">
-        <button class="text-gray-700 font-medium bg-white border rounded-md py-1.5 px-3" @click="backToLands()">
-          {{ $t('word.cancel') }}
+      <div
+        v-if="isEditable"
+        class="col-start-3 mt-5 flex justify-end space-x-5"
+      >
+        <button
+          class="text-gray-700 font-medium bg-white border rounded-md py-1.5 px-3"
+          @click="backToLands()"
+        >
+          {{ $t("word.cancel") }}
         </button>
-        <button class="text-white bg-green-500 border rounded-md py-1.5 px-4" @click="toAddField()">
-          {{ $t('word.save') }}
+        <button
+          class="text-white bg-green-500 border rounded-md py-1.5 px-4"
+          @click="toAddField()"
+        >
+          {{ $t("word.save") }}
         </button>
       </div>
     </div>
@@ -169,28 +180,41 @@
 
 <script>
 // import addField from '~/modals/add-field.vue'
-import newSeason from '~/modals/season.vue'
-import deleteModal from '~/modals/delete.vue'
+import newSeason from "~/modals/season.vue";
+import deleteModal from "~/modals/delete.vue";
 export default {
-  name: 'Edit',
-  middleware: 'leaflet',
-  data () {
+  name: "Edit",
+  middleware: "leaflet",
+  data() {
     return {
       field: {},
       seasons: [],
-      isEditable: false
-    }
+      isEditable: false,
+    };
   },
   computed: {},
-  created () {},
-  mounted () {
-    this.getPolygon().then(() => {
-      this.fetchSeason()
-    })
+  created() {},
+  mounted() {
+    if (this.$route.path.includes("new") <= 0)
+      this.getPolygon().then(() => {
+        this.fetchSeason();
+      });
+    else if (this.$refs.leaflet) {
+      this.$refs.leaflet.createPolygon();
+    }
+  },
+  watch: {
+    "$route.path"() {
+      if (this.$route.path.includes("new") <= 0) {
+        this.getPolygon().then(() => {
+          this.fetchSeason();
+        });
+      }
+    },
   },
   methods: {
-    toAddField () {
-      this.$router.push(this.localePath('/my-profile/lands'))
+    toAddField() {
+      this.$router.push(this.localePath("/my-profile/lands"));
       // this.$modal.show(
       //   addField,
       //   { status: 'add-field' },
@@ -202,7 +226,7 @@ export default {
       //   }
       // )
     },
-    toEditSeason (data) {
+    toEditSeason(data) {
       this.openSeasonModal({
         crop_id: data.crop_id.id,
         year: data.year,
@@ -212,66 +236,72 @@ export default {
         harvested_amount: data.harvested_amount,
         description: data.description,
         field_id: this.field.id,
-        id: data.id
-      })
+        id: data.id,
+      });
     },
-    toDeleteSeason (data) {
+    toDeleteSeason(data) {
       this.$modal.show(
         deleteModal,
-        { data, link: 'crud/season/deleteSeasons' },
+        { data, link: "crud/season/deleteSeasons" },
         {
-          height: 'auto',
+          height: "auto",
           maxWidth: 400,
           width: window.innerWidth <= 350 ? window.innerWidth - 10 : 350,
-          scrollable: false
+          scrollable: false,
         }
-      )
-      this.$root.$once('delete-modal', (item) => {
-        if (item === 'success') { this.fetchSeason() }
-      })
+      );
+      this.$root.$once("delete-modal", (item) => {
+        if (item === "success") {
+          this.fetchSeason();
+        }
+      });
     },
-    toNewSeason () {
-      this.openSeasonModal({})
+    toNewSeason() {
+      this.openSeasonModal({});
     },
-    openSeasonModal (data) {
+    openSeasonModal(data) {
       this.$modal.show(
         newSeason,
         { field: this.field, data },
         {
-          height: 'auto',
+          height: "auto",
           maxWidth: 500,
           width: window.innerWidth <= 450 ? window.innerWidth - 10 : 450,
-          scrollable: false
+          scrollable: false,
         }
-      )
-      this.$root.$once('season-modal', (item) => {
-        this.fetchSeason()
-      })
+      );
+      this.$root.$once("season-modal", (item) => {
+        this.fetchSeason();
+      });
     },
-    async fetchSeason () {
-      if (this.$route.params.detail !== 'new') {
+    async fetchSeason() {
+      if (this.$route.params.detail !== "new") {
         await this.$store
-          .dispatch('crud/season/getSeasons', {
-            '_where[0][field_id.id]': this.$route.params.detail
+          .dispatch("crud/season/getSeasons", {
+            "_where[0][field_id.id]": this.$route.params.detail,
           })
           .then((res) => {
-            this.seasons = res
-          })
+            this.seasons = res;
+          });
       }
     },
-    async getPolygon () {
-      if (this.$route.params.detail !== 'new') {
+    async getPolygon() {
+      if (this.$route.params.detail !== "new") {
         await this.$store
-          .dispatch('crud/field/getFieldsById', { id: this.$route.params.detail })
-          .then((res) => {
-            this.field = res
-            if (this.$refs.leaflet) { this.$refs.leaflet.renderPolygon(res.polygon) }
+          .dispatch("crud/field/getFieldsById", {
+            id: this.$route.params.detail,
           })
+          .then((res) => {
+            this.field = res;
+            if (this.$refs.leaflet) {
+              this.$refs.leaflet.renderPolygon(res.polygon);
+            }
+          });
       }
     },
-    backToLands () {
-      this.$router.push(this.localePath('/my-profile/lands'))
-    }
-  }
-}
+    backToLands() {
+      this.$router.push(this.localePath("/my-profile/lands"));
+    },
+  },
+};
 </script>

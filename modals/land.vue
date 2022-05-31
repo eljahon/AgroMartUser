@@ -359,7 +359,7 @@ export default {
     async onSubmit () {
       await this.$store.dispatch('crud/field/postFields', { data: this.land }).then((res) => {
         this.$router.push(
-          { path: this.localePath('/my-profile/lands') }
+          { path: this.localePath(`/my-profile/lands/${res.id}`) }
         )
         this.onClose()
       })
