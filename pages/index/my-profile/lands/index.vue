@@ -1,32 +1,33 @@
 <template>
   <div class="bg-white border rounded-md shadow-sm">
     <div class="grid lg:grid-cols-12">
-      <div :class="$route.query.field_id === 'new' ? 'lg:col-span-12' : 'lg:col-span-8'">
-        <div id="map-wrap" class="relative">
-          <leaflet ref="leaflet" height="height: calc(72vh - 0px)" from="field-list" />
+      <div
+        :class="
+          $route.query.field_id === 'new' ? 'lg:col-span-12' : 'lg:col-span-8'
+        "
+      >
+        <div
+          id="map-wrap"
+          class="relative"
+          v-if="Object.keys(field).length > 0"
+        >
+          <iframe
+            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
+            frameborder="0"
+            scrolling="no"
+            style="height: calc(72vh - 0px); width: 100%"
+          ></iframe>
         </div>
       </div>
       <div :class="$route.query.field_id !== 'new' ? 'lg:col-span-4' : ''">
         <div
           style="height: calc(72vh - 0px)"
-          class="
-            md:m-0
-            m-4
-            bg-white
-            responsive
-            overflow-y-auto
-            scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2
-            scrolling-touch
-            md:col-span-1
-            xl:col-span-1
-            col-span-1
-            border
-            shadow-md
-            rounded-md
-          "
+          class="md:m-0 m-4 bg-white responsive overflow-y-auto scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2 scrolling-touch md:col-span-1 xl:col-span-1 col-span-1 border shadow-md rounded-md"
         >
           <div class="m-3 relative rounded-md">
-            <div class="absolute inset-y-0 left-0 p-3 flex items-center pointer-events-none">
+            <div
+              class="absolute inset-y-0 left-0 p-3 flex items-center pointer-events-none"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -43,18 +44,9 @@
               type="text"
               name="search"
               :autocomplete="false"
-              class="
-                text-gray-400 text-sm
-                bg-gray-100
-                block
-                border-transparent
-                w-full
-                pl-10
-                sm:text-sm
-                rounded-md
-              "
+              class="text-gray-400 text-sm bg-gray-100 block border-transparent w-full pl-10 sm:text-sm rounded-md"
               :placeholder="$t('text.searchByFields')"
-            >
+            />
           </div>
           <div>
             <div v-if="fields.length > 0 && $route.query.field_id !== 'new'">
@@ -62,7 +54,11 @@
                 v-for="(field, index) in fields"
                 :key="index"
                 class="border-b hover:bg-gray-100 cursor-pointer"
-                :class="$route.query.field_id === `${field.id}` ? 'bg-green-50' : 'bg-white'"
+                :class="
+                  $route.query.field_id === `${field.id}`
+                    ? 'bg-green-50'
+                    : 'bg-white'
+                "
               >
                 <div class="grid grid-cols-3">
                   <div class="col-span-2 block mb-1">
@@ -76,24 +72,20 @@
                             class="h-10 w-10 rounded-full"
                             src="https://i.stack.imgur.com/37DoB.jpg"
                             alt=""
-                          >
+                          />
                         </span>
                       </div>
                       <div
-                        class="
-                          flex
-                          items-center
-                          overflow-y-auto
-                          scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2
-                          scrolling-touch
-                        "
+                        class="flex items-center overflow-y-auto scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2 scrolling-touch"
                       >
                         <div class="grid grid-cols-3 ml-3">
                           <div class="col-span-2 block mb-1">
                             <p class="text-sm text-gray-600">
                               {{ field.name }}
                             </p>
-                            <div class="flex pt-2 space-x-1 w-full text-xs text-gray-500">
+                            <div
+                              class="flex pt-2 space-x-1 w-full text-xs text-gray-500"
+                            >
                               {{ field.hectare }}
                             </div>
                           </div>
@@ -101,8 +93,13 @@
                       </div>
                     </div>
                   </div>
-                  <div class="flex justify-end py-2 px-2" @click="toFieldDetail(field)">
-                    <p class="text-xs text-gray-100 bg-gray-400 rounded-xl py-2 px-3">
+                  <div
+                    class="flex justify-end py-2 px-2"
+                    @click="toFieldDetail(field)"
+                  >
+                    <p
+                      class="text-xs text-gray-100 bg-gray-400 rounded-xl py-2 px-3"
+                    >
                       <i class="bx bx-log-in-circle" />
                     </p>
                   </div>
@@ -112,7 +109,7 @@
             <div v-else>
               <div class="align-middle text-center">
                 <span class="rounded-md py-1 px-2 bg-green-200 text-gray-600">
-                  {{ $t('text.youDontHaveFields') }}
+                  {{ $t("text.youDontHaveFields") }}
                 </span>
               </div>
             </div>
@@ -125,59 +122,69 @@
 
 <script>
 export default {
-  name: 'Lands',
+  name: "Lands",
   components: {},
-  data () {
+  data() {
     return {
-      fields: []
-    }
+      fields: [],
+      field: {},
+    };
   },
   watch: {
-    '$route.query.field_id' () {
-      this.getPolygon()
-    }
+    "$route.query.field_id"() {
+      this.getPolygon();
+    },
   },
-  mounted () {
-    this.fetchFields()
+  mounted() {
+    this.fetchFields();
     if (this.$route.query.field_id) {
-      this.getPolygon()
+      this.getPolygon();
     }
   },
   methods: {
-    toFieldDetail (field) {
-      this.$router.push({ path: this.localePath(`/my-profile/lands/${field.id}`) })
-    },
-    toChangeLocation (field) {
+    toFieldDetail(field) {
       this.$router.push({
-        query: { field_id: field.id }
-      })
+        path: this.localePath(`/my-profile/lands/${field.id}`),
+      });
     },
-    async getPolygon () {
-      if (this.$route.query.field_id !== 'new' || this.$route.query.field_id !== '') {
+    toChangeLocation(field) {
+      this.field = field;
+      this.$router.push({
+        query: { field_id: field.id },
+      });
+    },
+    async getPolygon() {
+      if (
+        this.$route.query.field_id !== "new" ||
+        this.$route.query.field_id !== ""
+      ) {
         await this.$store
-          .dispatch('crud/field/getFieldsById', { id: this.$route.query.field_id })
-          .then((res) => {
-            this.field = res
-            if (this.$refs.leaflet) {
-              this.$refs.leaflet.renderPolygon(res.polygon)
-            }
+          .dispatch("crud/field/getFieldsById", {
+            id: this.$route.query.field_id,
           })
+          .then((res) => {
+            this.field = res;
+            if (this.$refs.leaflet) {
+              this.$refs.leaflet.renderPolygon(res.polygon);
+            }
+          });
       }
     },
-    toNewLand () {
-      this.$router.push({ path: this.localePath('/my-profile/lands/new') })
+    toNewLand() {
+      this.$router.push({ path: this.localePath("/my-profile/lands/new") });
     },
-    async fetchFields () {
-      await this.$store.dispatch('crud/field/getFields').then((res) => {
-        this.fields = res
+    async fetchFields() {
+      await this.$store.dispatch("crud/field/getFields").then((res) => {
+        this.fields = res;
         if (res.length > 0) {
+          this.field = res[0];
           this.$router.push({
-            query: { field_id: res[0].id }
-          })
+            query: { field_id: res[0].id },
+          });
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style scoped></style>

@@ -5,7 +5,18 @@
     </div>
     <div v-else class="grid grid-cols-3 gap-0">
       <div id="map-wrap" class="md:col-span-1 col-span-3 relative">
-        <leaflet ref="leaflet" height="height: 24rem" from="field-detail" />
+        <div
+          id="map-wrap"
+          class="relative"
+          v-if="Object.keys(field).length > 0"
+        >
+          <iframe
+            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
+            frameborder="0"
+            scrolling="no"
+            style="height: 24rem; width: 100%"
+          ></iframe>
+        </div>
       </div>
       <div class="md:col-span-2 col-span-3 relative bg-white shadow-sm">
         <div class="bg-gray-100">
