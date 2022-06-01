@@ -9,7 +9,7 @@
         <div
           id="map-wrap"
           class="relative"
-          v-if="Object.keys(field).length > 0"
+          v-if="!iframeLoading"
         >
           <iframe
             :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
@@ -53,55 +53,54 @@
               <div
                 v-for="(field, index) in fields"
                 :key="index"
-                class="border-b hover:bg-gray-100 cursor-pointer"
+                class="hover:bg-gray-100 cursor-pointer"
                 :class="
                   $route.query.field_id === `${field.id}`
                     ? 'bg-green-50'
                     : 'bg-white'
                 "
               >
-                <div class="grid grid-cols-3">
-                  <div class="col-span-2 block mb-1">
-                    <div
-                      class="px-2 py-1 flex items-center col-span-5"
-                      @click="toChangeLocation(field)"
-                    >
-                      <div class="flex-shrink-0">
-                        <span class="inline-block relative">
-                          <img
-                            class="h-10 w-10 rounded-full"
-                            src="https://i.stack.imgur.com/37DoB.jpg"
-                            alt=""
-                          />
-                        </span>
-                      </div>
-                      <div
-                        class="flex items-center overflow-y-auto scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2 scrolling-touch"
-                      >
-                        <div class="grid grid-cols-3 ml-3">
-                          <div class="col-span-2 block mb-1">
-                            <p class="text-sm text-gray-600">
-                              {{ field.name }}
-                            </p>
-                            <div
-                              class="flex pt-2 space-x-1 w-full text-xs text-gray-500"
-                            >
-                              {{ field.hectare }}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <div class="col-span-1 flex shadow-sm rounded-md">
+                  <div
+                    class="flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md"
+                  >
+                    <img
+                      :src="require('/assets/images/crop-area.jpg')"
+                      alt="crop-area"
+                    />
                   </div>
                   <div
-                    class="flex justify-end py-2 px-2"
-                    @click="toFieldDetail(field)"
+                    class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 truncate"
                   >
-                    <p
-                      class="text-xs text-gray-100 bg-gray-400 rounded-xl py-2 px-3"
+                    <div
+                      @click="toChangeLocation(field)"
+                      class="flex-1 px-4 py-2 text-sm truncate"
                     >
-                      <i class="bx bx-log-in-circle" />
-                    </p>
+                      <div
+                        class="text-gray-900 font-medium hover:text-gray-600"
+                      >
+                        {{ field.name }}
+                      </div>
+                      <p class="text-gray-500">{{ field.hectare }}</p>
+                    </div>
+                    <div class="flex-shrink-0 pr-2">
+                      <button
+                        type="button"
+                        class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        @click="toFieldDetail(field)"
+                      >
+                        <svg
+                          class="h-6 w-6"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -128,11 +127,14 @@ export default {
     return {
       fields: [],
       field: {},
+      iframeLoading: false
     };
   },
   watch: {
     "$route.query.field_id"() {
-      this.getPolygon();
+      this.getPolygon().then(() => {
+        this.iframeLoading = false
+      });
     },
   },
   mounted() {
@@ -143,11 +145,13 @@ export default {
   },
   methods: {
     toFieldDetail(field) {
+      this.iframeLoading = true
       this.$router.push({
         path: this.localePath(`/my-profile/lands/${field.id}`),
       });
     },
     toChangeLocation(field) {
+      this.iframeLoading = true
       this.field = field;
       this.$router.push({
         query: { field_id: field.id },

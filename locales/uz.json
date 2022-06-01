@@ -239,6 +239,7 @@
         "resend": "Қайтадан юбориш",
         "resendText": "га 6та рақамдан иборат код юборилди. Илтимос кодни киритинг...",
 
+        "searchByFields": "Майдонлар бўйича қидириш",
         "selectYear": "Йилни танланг",
         "seasonYear": "Мавсум йили",
         "sendMedia": "Медиа файл йубориш",
@@ -283,6 +284,7 @@
         "youDontHaveActiveRooms": "Сизда фаол чатлар мавжуд эмас",
         "youDontHaveClosedRooms": "Сизда тугалланган чатлар мавжуд эмас",
         "youDontHaveMessages": "Сизда хабарлар мавжуд эмас",
+        "youDontHaveFields": "Сизда майдонлар йўқ",
         "z": "Z"
     }
 }

@@ -241,6 +241,7 @@
         "resend": "Resend",
         "resendText": "to this number a 6-digit code was sent. Please enter the code...",
 
+        "searchByFields": "Search by fields",
         "selectYear": "Select year",
         "seasonYear": "Season year",
         "sendMedia": "Send media file",
@@ -285,6 +286,8 @@
         "youDontHaveClosedRooms": "You don't have closed rooms",
         "youDontHaveActiveRooms": "You don't have active rooms",
         "youDontHaveMessages": "You don't have messages",
+        "youDontHaveFields": "You don't have fields",
+        
         "z": "Z"
     }
 }
