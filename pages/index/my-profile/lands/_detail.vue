@@ -4,20 +4,6 @@
       <leaflet ref="leaflet" from="field-datail" height="height: 24rem" />
     </div>
     <div v-else class="grid grid-cols-3 gap-0">
-      <div id="map-wrap" class="md:col-span-1 col-span-3 relative">
-        <div
-          id="map-wrap"
-          class="relative"
-          v-if="Object.keys(field).length > 0"
-        >
-          <iframe
-            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
-            frameborder="0"
-            scrolling="no"
-            style="height: 24rem; width: 100%"
-          ></iframe>
-        </div>
-      </div>
       <div class="md:col-span-2 col-span-3 relative bg-white shadow-sm">
         <div class="bg-gray-100">
           <div class="flex items-center justify-between p-3">
@@ -184,6 +170,20 @@
         >
           {{ $t("word.save") }}
         </button>
+      </div>
+      <div id="map-wrap" class="md:col-span-1 col-span-3 relative mt-2">
+        <div
+          id="map-wrap"
+          class="relative"
+          v-if="Object.keys(field).length > 0"
+        >
+          <iframe
+            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
+            frameborder="0"
+            scrolling="no"
+            style="height: 24rem; width: 100%"
+          ></iframe>
+        </div>
       </div>
     </div>
   </div>

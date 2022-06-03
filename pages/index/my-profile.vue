@@ -12,7 +12,7 @@
       </div> -->
     </div>
 
-    <div class="grid md:grid-cols-4 grid-cols-1 md:gap-3 gap-0 md:space-y-0 space-y-3">
+    <div class="grid lg:grid-cols-4 grid-cols-1 lg:gap-3 gap-0 lg:space-y-0 space-y-3">
       <div>
         <div class="border rounded-md shadow-sm p-3 bg-white">
           <div class="flex">
@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-        <div class="border md:block hidden rounded-md bg-white shadow-sm mt-4 px-3">
+        <div class="border lg:block hidden rounded-md bg-white shadow-sm mt-4 px-3">
           <router-link
             :to="{ path: localePath('/my-products') }"
             class="flex items-center font-medium border-b py-2 text-gray-600"
@@ -124,7 +124,7 @@
             </p>
           </div>
         </div>
-        <my-profile-swiper class="md:hidden flex" />
+        <my-profile-swiper class="lg:hidden flex" />
       </div>
       <main class="col-span-3">
         <router-view />

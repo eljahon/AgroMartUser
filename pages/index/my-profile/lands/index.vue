@@ -1,28 +1,44 @@
 <template>
   <div class="bg-white border rounded-md shadow-sm">
-    <div class="grid lg:grid-cols-12">
+    <nav
+      :class="
+        $route.query && $route.query.field_id ? 'block md:hidden' : 'hidden'
+      "
+      class="items-start px-4 py-3 sm:px-6 lg:px-8"
+      aria-label="Breadcrumb"
+      @click="toFieldsList()"
+    >
+      <a
+        href="#"
+        class="inline-flex items-center space-x-3 text-sm font-medium text-gray-900"
+      >
+        <!-- Heroicon name: solid/chevron-left -->
+        <svg
+          class="-ml-2 h-5 w-5 text-gray-400"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span>{{ $t("word.back") }}</span>
+      </a>
+    </nav>
+    <div class="grid md:grid-cols-12 grid-cols-1">
       <div
         :class="
-          $route.query.field_id === 'new' ? 'lg:col-span-12' : 'lg:col-span-8'
+          !$route.query || !$route.query.field_id ? 'block' : 'md:block hidden'
         "
+        class="md:col-span-4 col-span-12"
       >
         <div
-          id="map-wrap"
-          class="relative"
-          v-if="!iframeLoading"
-        >
-          <iframe
-            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
-            frameborder="0"
-            scrolling="no"
-            style="height: calc(72vh - 0px); width: 100%"
-          ></iframe>
-        </div>
-      </div>
-      <div :class="$route.query.field_id !== 'new' ? 'lg:col-span-4' : ''">
-        <div
           style="height: calc(72vh - 0px)"
-          class="md:m-0 m-4 bg-white responsive overflow-y-auto scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2 scrolling-touch md:col-span-1 xl:col-span-1 col-span-1 border shadow-md rounded-md"
+          class="md:m-0 bg-white responsive overflow-y-auto scrollbar-track-blue-lighter scrollbar-thumb-blue scrollbar-w-2 scrolling-touch md:col-span-1 xl:col-span-1 col-span-1 border shadow-md rounded-md"
         >
           <div class="m-3 relative rounded-md">
             <div
@@ -90,7 +106,7 @@
                         @click="toFieldDetail(field)"
                       >
                         <svg
-                          class="h-6 w-6"
+                          class="h-4 w-4"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"
                           viewBox="0 0 24 24"
@@ -115,6 +131,21 @@
           </div>
         </div>
       </div>
+      <div
+        :class="
+          $route.query && $route.query.field_id ? 'block md:hidden' : 'hidden'
+        "
+        class="md:col-span-8 md:block"
+      >
+        <div id="map-wrap" class="relative" v-if="!iframeLoading">
+          <iframe
+            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
+            frameborder="0"
+            scrolling="no"
+            style="height: calc(72vh - 0px); width: 100%"
+          ></iframe>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -127,13 +158,14 @@ export default {
     return {
       fields: [],
       field: {},
-      iframeLoading: false
+      iframeLoading: false,
     };
   },
   watch: {
     "$route.query.field_id"() {
+      if (this.$route.query && this.$route.query.field_id)
       this.getPolygon().then(() => {
-        this.iframeLoading = false
+        this.iframeLoading = false;
       });
     },
   },
@@ -144,14 +176,19 @@ export default {
     }
   },
   methods: {
+    toFieldsList() {
+      this.$router.push({
+        query: {},
+      });
+    },
     toFieldDetail(field) {
-      this.iframeLoading = true
+      this.iframeLoading = true;
       this.$router.push({
         path: this.localePath(`/my-profile/lands/${field.id}`),
       });
     },
     toChangeLocation(field) {
-      this.iframeLoading = true
+      this.iframeLoading = true;
       this.field = field;
       this.$router.push({
         query: { field_id: field.id },
@@ -180,12 +217,6 @@ export default {
     async fetchFields() {
       await this.$store.dispatch("crud/field/getFields").then((res) => {
         this.fields = res;
-        if (res.length > 0) {
-          this.field = res[0];
-          this.$router.push({
-            query: { field_id: res[0].id },
-          });
-        }
       });
     },
   },

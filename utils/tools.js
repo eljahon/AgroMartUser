@@ -9,7 +9,6 @@ const tools = {
       .replace(/\s+/g, "");
   },
   getFileUrl(name) {
-    console.log('get file url: ', `${process.env.VUE_APP_IMG_URL}uploads${name}`)
     if (name) {
       if (name.includes("https://")) {
         return name;
