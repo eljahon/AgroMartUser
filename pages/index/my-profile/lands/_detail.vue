@@ -7,6 +7,32 @@
       <div class="md:col-span-2 col-span-3 relative bg-white shadow-sm">
         <div class="bg-gray-100">
           <div class="flex items-center justify-between p-3">
+            <nav
+              class="px-4 py-3 sm:px-6 lg:px-8 items-center space-x-5"
+              aria-label="Breadcrumb"
+              @click="toFieldsList()"
+            >
+              <a
+                href="#"
+                class="inline-flex items-center space-x-3 text-sm font-medium text-gray-900"
+              >
+                <!-- Heroicon name: solid/chevron-left -->
+                <svg
+                  class="-ml-2 h-5 w-5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span>{{ $t("word.back") }}</span>
+              </a>
+            </nav>
             <button
               class="text-xs text-gray-500 bg-gray-200 font-medium flex items-center rounded-md p-2"
               @click="isEditable = !isEditable"
@@ -14,20 +40,6 @@
               {{ isEditable ? $t("word.cancel") : $t("word.edit") }}
               <i v-if="!isEditable" class="bx bx-edit text-gray-600 pl-1.5" />
             </button>
-            <div class="flex items-center space-x-5">
-              <button
-                v-if="isEditable"
-                class="text-xs text-red-500 bg-red-100 font-medium flex items-center rounded-md p-2"
-              >
-                {{ $t("word.delete") }}
-                <i class="bx bx-trash text-red-600 pl-1.5" />
-              </button>
-              <button
-                class="text-xs text-white bg-light-orange font-medium flex items-center rounded-md px-5 py-2"
-              >
-                {{ $t("word.back") }}
-              </button>
-            </div>
           </div>
           <div v-if="isEditable" class="grid grid-cols-2 gap-4 px-3 pb-3">
             <div class="block">
@@ -54,7 +66,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-2 ring-1 ring-gray-300 sm:-mx-6 md:mx-2 md:rounded-lg">
+        <div class="m-2 ring-1 ring-gray-300 sm:-mx-6 md:mx-2 rounded-lg">
           <table class="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
@@ -66,7 +78,7 @@
                 </th>
                 <th
                   scope="col"
-                  class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                  class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                 >
                   {{ $t("text.seasonYear") }}
                 </th>
@@ -171,7 +183,7 @@
           {{ $t("word.save") }}
         </button>
       </div>
-      <div id="map-wrap" class="md:col-span-1 col-span-3 relative mt-2">
+      <div id="map-wrap" class="md:col-span-1 col-span-3 relative mt-2 md:mt-0">
         <div
           id="map-wrap"
           class="relative"
@@ -224,6 +236,11 @@ export default {
     },
   },
   methods: {
+    toFieldsList() {
+      this.$router.push({
+        path: this.localePath('/my-profile/lands')
+      });
+    },
     toAddField() {
       this.$router.push(this.localePath("/my-profile/lands"));
       // this.$modal.show(
