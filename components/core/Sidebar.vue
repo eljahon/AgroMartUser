@@ -39,7 +39,7 @@
         <div class="mt-5 flex-1 h-0 overflow-y-auto">
           <nav class="flex-1 px-2 py-4 b space-y-1">
             <div v-for="(item, key) in sidebar" :key="key">
-              <div v-if="item.children">
+              <div v-if="item.children ">
                 <a
                   class="
                     cursor-pointer
@@ -64,7 +64,8 @@
                   />
                 </a>
                 <div v-for="(child, k) in item.children" v-show="item.current" :key="k">
-                  <a
+                  <div v-if="!child.hide || child.hide == null">
+                    <a
                     :to="child.route"
                     :class="
                       child.current
@@ -75,10 +76,11 @@
                   >
                     {{ child.title[$i18n.locale] }}
                   </a>
+                  </div>
                 </div>
               </div>
               <a
-                v-else
+                v-else-if="!item.hide || item.hide === null"
                 :class="
                   item.current
                     ? 'cursor-pointer  text-white group flex items-center px-2 py-2 text-base font-medium rounded-md'
@@ -166,33 +168,35 @@
                     </div>
                   </div>
                   <div v-for="(child, k) in item.children" v-show="item.current === true" :key="k">
-                    <a
-                      :to="child.route"
-                      class="
-                        cursor-pointer
-                        ml-10
-                        group
-                        flex
-                        items-center
-                        px-2
-                        py-2
-                        text-sm
-                        font-medium
-                        rounded-md
-                      "
-                      :class="
-                        child.current
-                          ? 'text-green-600 hover:text-green-600'
-                          : 'text-gray-500 hover:text-gray-700'
-                      "
-                      @click="menuChildClicked(item, child)"
-                    >
-                      {{ child.title[$i18n.locale] }}
-                    </a>
+                    <div v-if="!child.hide || child.hide === null">
+                      <a
+                        :to="child.route"
+                        class="
+                          cursor-pointer
+                          ml-10
+                          group
+                          flex
+                          items-center
+                          px-2
+                          py-2
+                          text-sm
+                          font-medium
+                          rounded-md
+                        "
+                        :class="
+                          child.current
+                            ? 'text-green-600 hover:text-green-600'
+                            : 'text-gray-500 hover:text-gray-700'
+                        "
+                        @click="menuChildClicked(item, child)"
+                      >
+                        {{ child.title[$i18n.locale] }}
+                      </a>
+                    </div>
                   </div>
                 </div>
                 <div
-                  v-else
+                  v-else-if="!item.hide || item.hide === null"
                   class="
                     cursor-pointer
                     group
