@@ -16,16 +16,16 @@
         </p>
       </router-link>
     </swiper-slide>
-    <!-- <swiper-slide>
-      <router-link :to="{path: localePath('/my-profile/lands')}" :class="$route.path === '/my-profile/lands'? 'bg-green-50 text-green-600 border-transparent' : ''" class="flex items-center justify-center shadow-md bg-white border rounded-md font-medium border-b py-2 text-gray-600">
+    <swiper-slide>
+      <router-link :to="{path: localePath('/my-profile/lands')}" :class="$tools.removeLangPath($route.path) === '/my-profile/lands'? 'bg-green-50 text-green-600 border-transparent' : ''" class="flex items-center justify-center shadow-md bg-white border rounded-md font-medium border-b py-2 text-gray-600">
         <i class="bx bx-map-alt text-lg" />
         <p class="ml-3">
-          {{$t('word.myLand')}}
+          {{$t('word.myLands')}}
         </p>
       </router-link>
-    </swiper-slide> -->
+    </swiper-slide>
     <swiper-slide>
-      <router-link :to="{path: localePath('/my-profile/settings')}" :class="$route.path === '/my-profile/settings'? 'bg-green-50 text-green-600 border-transparent' : ''" class="flex items-center justify-center shadow-md bg-white border border-gray-200 rounded-md font-medium py-2 text-gray-600">
+      <router-link :to="{path: localePath('/my-profile/settings')}" :class="$tools.removeLangPath($route.path) === '/my-profile/settings'? 'bg-green-50 border-green-200 text-green-600 border-transparent' : 'bg-white border-gray-200 text-gray-600'" class="flex border items-center justify-center shadow-md rounded-md font-medium py-2">
         <i class="bx bx-cog text-lg" />
         <p class="ml-3">
           {{ $t('word.settings') }}
@@ -67,6 +67,8 @@ export default {
         }
       }
     }
+  },
+  mounted () {
   },
   methods: {
     prev () {

@@ -236,6 +236,7 @@
         "resend": "Отправить снова",
         "resendText": "на этот номер отправлен шестизначный код. Пожалуйста введите код...",
         
+        "searchByFields": "Поиск по полям",
         "selectYear": "Выберите год",
         "seasonYear": "Год сезона",
         "sendMedia": "Отправить медиа файл",
@@ -280,6 +281,8 @@
         "youDontHaveActiveRooms": "У вас нет активных чат",
         "youDontHaveClosedRooms": "У вас нет законченных чат",
         "youDontHaveMessages": "У вас нет сообщений",
+        "youDontHaveFields": "У вас нет полей",
+
         "z": "Z"
     }
 }
