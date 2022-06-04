@@ -1,7 +1,6 @@
 <template>
   <div class="rounded-sm h-full">
     <div v-if="$route.path.includes('new') > 0">
-      <leaflet ref="leaflet" from="field-datail" height="height: 24rem" />
     </div>
     <div v-else class="grid grid-cols-3 gap-0">
       <div class="md:col-span-2 col-span-3 relative bg-white shadow-sm">
