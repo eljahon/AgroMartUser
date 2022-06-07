@@ -92,8 +92,8 @@ export default {
             },
             {
               id: 2,
-              label: 'Costs',
-              value: 'costs',
+              label: 'Season',
+              value: 'season',
               width: 68
             },
             {
@@ -173,7 +173,7 @@ export default {
         id: field.name ? (field.name.replaceAll(' ', '') + field.id) : (field.title.replaceAll(' ', '') + field.id),
         main_id: field.id,
         label: `<strong class="task_name">${field.name || field.title}</strong>`,
-        costs: field.costs || '',
+        season: field.seasonId || '',
         start: field.startDate ? startDate(field.startDate) : getDate(0),
         duration: field.periodDays ? (field.periodDays * 24 * 60 * 60 * 1000) : 0,
         parentId: parent,

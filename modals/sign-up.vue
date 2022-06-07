@@ -334,26 +334,28 @@ export default {
       signUp: 'register'
     }),
     async onSubmit () {
+      const _user = { ...this.user }
       if (this.phoneOrEmail.includes('@') > 0) {
-        this.user.email = this.phoneOrEmail
-        this.user.username = this.user.email
-        delete this.user.phone
+        _user.email = this.phoneOrEmail
+        _user.username = this.phoneOrEmail
+        delete _user.phone
       } else if (this.phoneOrEmail.includes('+') > 0) {
-        this.user.phone = this.phoneOrEmail.substring(1)
-        this.user.username = this.user.phone
-        delete this.user.email
-        delete this.user.password
+        _user.phone = this.phoneOrEmail.substring(1)
+        _user.username = this.phoneOrEmail.substring(1)
+        delete _user.email
+        delete _user.password
       } else {
-        this.user.phone = this.phoneOrEmail
-        this.user.username = this.phoneOrEmail
-        delete this.user.email
-        delete this.user.password
+        _user.phone = this.phoneOrEmail.substring(1)
+        _user.username = this.phoneOrEmail.substring(1)
+        delete _user.email
+        delete _user.password
       }
-      await this.$axios.post('/auth/local/register', this.user).then(async (data) => {
+      await this.$axios.post('/auth/local/register', _user).then(async (data) => {
         if (this.isEmail) {
           this.$snotify.info('Logging in...')
+          console.log(this.user, _user)
           await this.$auth.loginWith('local', {
-            data: { identifier: this.user.email, password: this.user.passowrd }
+            data: { identifier: _user.email, password: _user.password }
           }).then(async (res) => {
             await this.$auth.setToken('local', 'Bearer ' + res.data.jwt)
             // await this.$auth.setRefreshToken('local', res.data.refresh)
@@ -380,7 +382,6 @@ export default {
       }).catch((e) => { console.error(e) })
     },
     toTermsOfService () {
-      this.$emit('close')
       this.$modal.show(
         termsOfService,
         { status: 'terms-of-service' },
