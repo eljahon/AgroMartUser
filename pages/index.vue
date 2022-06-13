@@ -354,6 +354,12 @@ export default {
   watch: {},
   created() {},
   mounted() {
+    if (this.$route.query.type) {
+      this.query.type = this.$route.query.type
+    }
+    if (this.$route.query.filter) {
+      this.query.filter = this.$route.query.filter
+    }
     socket.on("joined", (res) => {
       console.log("Page: ", res);
     });
