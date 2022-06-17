@@ -181,6 +181,7 @@ export default {
         .dispatch('crud/news/getNews', {
           locale: this.$i18n.locale,
           query: {
+            _sort: 'created_at:DESC',
             '_where[0][isevent]': true
           }
         })
@@ -191,12 +192,21 @@ export default {
         .dispatch('crud/news/getNews', {
           locale: this.$i18n.locale,
           query: {
+            _sort: 'created_at:DESC',
             '_where[0][category.id]': this.news.category.id,
-            _limit: 3
+            _start: 0,
+            _limit: 11,
           }
         })
         .then((res) => {
-          this.otherInfo = res
+          var filtered = res.filter((value) => {
+            return value.id != this.news.id
+          })
+          if (filtered.length <= 10) {
+            this.otherInfo = [...filtered]
+          } else {
+            this.otherInfo = filtered.splice(0, 10)
+          }
         })
     }
   }
