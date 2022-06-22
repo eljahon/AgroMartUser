@@ -696,7 +696,7 @@ export default {
         })
     },
     sendMessage() {
-      if (this.message.text === 0) {
+      if (this.message.text === 0 || this.message.text.trim().length === 0) {
         return;
       }
       if (this.$route.query.room_id === "new") {
