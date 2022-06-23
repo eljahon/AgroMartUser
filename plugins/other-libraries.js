@@ -12,6 +12,9 @@ import 'viewerjs/dist/viewer.css'
 import 'vue2-datepicker/index.css'
 import Viewer from 'v-viewer'
 import VueImg from 'v-img'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+
 Vue.use(VueTheMask)
 const options = {
   toast: {
@@ -49,3 +52,4 @@ Vue.use(PerfectScrollbar)
 Vue.use(Viewer)
 
 Vue.component('DatePicker', DatePicker)
+Vue.component('v-select', vSelect)

@@ -26,7 +26,7 @@
           "
           @click="$router.push(localePath('/trading'))"
         >
-          {{ $t('text.allAds') }}
+          {{ $t("text.allAds") }}
         </button>
         <button
           type="button"
@@ -47,7 +47,7 @@
           "
           @click="$router.push(localePath('/my-products/new'))"
         >
-          {{ $t('word.announcement') }} <span class="ml-2">+</span>
+          {{ $t("word.announcement") }} <span class="ml-2">+</span>
         </button>
       </div>
       <div class="md:hidden flex mt-5">
@@ -57,10 +57,18 @@
     <div class="md:grid hidden grid-cols-2 mb-4 md:px-0 px-4">
       <div class="flex items-center relative">
         <input
-          class="w-full pl-9 text-base font-medium text-gray-500 border-gray-300 rounded-md"
+          class="
+            w-full
+            pl-9
+            text-base
+            font-medium
+            text-gray-500
+            border-gray-300
+            rounded-md
+          "
           :placeholder="$t('word.search')"
           type="text"
-        >
+        />
         <div class="absolute m-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,13 +89,25 @@
       </div>
       <div class="flex relative items-center justify-end">
         <div
-          class="flex items-center hover:bg-gray-100 p-2 rounded-md cursor-pointer"
+          class="
+            flex
+            items-center
+            hover:bg-gray-100
+            p-2
+            rounded-md
+            cursor-pointer
+          "
           @click="openSort"
         >
           <div class="text-lg text-gray-700 mr-2">
-            {{ $t('word.sell') }}
+            {{ $t("word.sell") }}
           </div>
-          <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="20"
+            height="20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M5.833 13.333v-10m0 0L2.5 6.666m3.333-3.333 3.334 3.333m5 0v10m0 0 3.333-3.333m-3.333 3.333-3.334-3.333"
               stroke="#374151"
@@ -121,15 +141,15 @@
           tabindex="-1"
         >
           <div class="flex items-center gap-2">
-            <input type="radio" name="sorting" class="w-3 h-3">
+            <input type="radio" name="sorting" class="w-3 h-3" />
             <span>Sotib olish</span>
           </div>
           <div class="flex items-center gap-2">
-            <input type="radio" name="sorting" class="w-3 h-3">
+            <input type="radio" name="sorting" class="w-3 h-3" />
             <span>Hamyonbop</span>
           </div>
           <div class="flex items-center gap-2">
-            <input type="radio" name="sorting" class="w-3 h-3">
+            <input type="radio" name="sorting" class="w-3 h-3" />
             <span>Eng yaqin</span>
           </div>
         </div>
@@ -137,7 +157,14 @@
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="bg-gray-100 hover:bg-gray-200 rounded-md w-10 h-10 focus:outline-none"
+            class="
+              bg-gray-100
+              hover:bg-gray-200
+              rounded-md
+              w-10
+              h-10
+              focus:outline-none
+            "
             @click="openFilter"
           >
             <div class="text-lg">
@@ -167,10 +194,10 @@
           tabindex="-1"
         >
           <div class="text-gray-600 font-semibold pb-4 text-xl">
-            {{ $t('word.filter') }}
+            {{ $t("word.filter") }}
           </div>
           <div class="text-gray-700 text-sm font-medium pb-3">
-            {{ $t('text.adType') }}
+            {{ $t("text.adType") }}
           </div>
           <select
             class="
@@ -188,15 +215,11 @@
               cursor-pointer
             "
           >
-            <option value="">
-              Sotish
-            </option>
-            <option value="">
-              Sotib olish
-            </option>
+            <option value="">Sotish</option>
+            <option value="">Sotib olish</option>
           </select>
           <div class="text-gray-700 text-sm font-medium py-3">
-            {{ $t('word.category') }}
+            {{ $t("word.category") }}
           </div>
           <select
             class="
@@ -214,12 +237,8 @@
               cursor-pointer
             "
           >
-            <option value="">
-              Parranda
-            </option>
-            <option value="">
-              Qoramol
-            </option>
+            <option value="">Parranda</option>
+            <option value="">Qoramol</option>
           </select>
           <select
             class="
@@ -237,83 +256,135 @@
               cursor-pointer
             "
           >
-            <option value="man">
-              Quyi kategoriya
-            </option>
-            <option value="woman">
-              Sotib olish
-            </option>
+            <option value="man">Quyi kategoriya</option>
+            <option value="woman">Sotib olish</option>
           </select>
           <div class="text-gray-700 text-sm font-medium py-3">
-            {{ $t('word.price') }}
+            {{ $t("word.price") }}
           </div>
           <input
             type="text"
             name="initial_price"
             :placeholder="$t('text.fromSum')"
             class="w-full text-sm rounded-md border-gray-300"
-          >
+          />
           <input
             type="text"
             name="final_price"
             :placeholder="$t('text.toSum')"
             class="my-3 w-full text-sm rounded-md border-gray-300"
-          >
+          />
           <div class="text-gray-700 text-sm font-medium py-3">
-            {{ $t('text.deliveryParam') }}
+            {{ $t("text.deliveryParam") }}
           </div>
           <div class="block gap-3">
             <div class="flex items-center">
-              <input id="pick_up" class="rounded" checked type="checkbox">
+              <input id="pick_up" class="rounded" checked type="checkbox" />
               <div class="">
-                <label class="text-sm font-medium text-gray-700 ml-2">{{ $t('text.pickUp') }}</label>
+                <label class="text-sm font-medium text-gray-700 ml-2">{{
+                  $t("text.pickUp")
+                }}</label>
               </div>
             </div>
             <div class="flex items-center my-3">
-              <input id="delivery" class="rounded" type="checkbox">
+              <input id="delivery" class="rounded" type="checkbox" />
               <div class="">
-                <label class="text-sm font-medium text-gray-700 ml-2">{{ $t('word.delivery') }}</label>
+                <label class="text-sm font-medium text-gray-700 ml-2">{{
+                  $t("word.delivery")
+                }}</label>
               </div>
             </div>
-            <button class="text-sm text-white font-medium bg-green-600 p-2 rounded-md w-full">
-              {{ $t('word.show') }}
+            <button
+              class="
+                text-sm text-white
+                font-medium
+                bg-green-600
+                p-2
+                rounded-md
+                w-full
+              "
+            >
+              {{ $t("word.show") }}
             </button>
             <button
-              class="text-sm text-light-orange font-medium bg-orange-50 p-2 my-3 rounded-md w-full"
+              class="
+                text-sm text-light-orange
+                font-medium
+                bg-orange-50
+                p-2
+                my-3
+                rounded-md
+                w-full
+              "
             >
-              {{ $t('text.cleanFilter') }}
+              {{ $t("text.cleanFilter") }}
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:px-0 px-4 gap-3">
+    <div
+      class="
+        grid
+        lg:grid-cols-4
+        md:grid-cols-3
+        sm:grid-cols-2
+        grid-cols-1
+        md:px-0
+        px-4
+        gap-3
+      "
+    >
       <div v-for="(item, index) in myProduct" :key="index">
         <div class="col-span-3 flex gap-4 h-auto w-full mx-auto cursor-pointer">
-          <div class="gap-x-2 rounded-md border hover:shadow-lg shadow-md w-full">
+          <div
+            class="gap-x-2 rounded-md border hover:shadow-lg shadow-md w-full"
+          >
             <div class="h-48 relative object-cover overflow-hidden">
-              <router-link :to="{path: localePath('/my-products')}">
+              <router-link :to="{ path: localePath('/my-products') }">
                 <img
                   v-if="item.mainimage || item.thumbnail"
-                  :src="$tools.getFileUrl(item.thumbnail ? item.thumbnail : item.mainimage)"
-                  class="w-full md:h-60 h-44 object-cover rounded-md rounded-b-none"
-                >
+                  :src="
+                    $tools.getFileUrl(
+                      item.thumbnail ? item.thumbnail : item.mainimage
+                    )
+                  "
+                  class="
+                    w-full
+                    md:h-60
+                    h-44
+                    object-cover
+                    rounded-md rounded-b-none
+                  "
+                />
                 <img
                   v-else-if="item.gallery"
-                  :src="$tools.getFileUrl(item.gallery[0]) "
-                  class="w-full md:h-60 h-44 object-cover rounded-md rounded-b-none"
-                >
+                  :src="$tools.getFileUrl(item.gallery[0])"
+                  class="
+                    w-full
+                    md:h-60
+                    h-44
+                    object-cover
+                    rounded-md rounded-b-none
+                  "
+                />
                 <img
                   v-else
-                  class="w-full md:h-60 h-44 object-cover rounded-md rounded-b-none"
+                  class="
+                    w-full
+                    md:h-60
+                    h-44
+                    object-cover
+                    rounded-md rounded-b-none
+                  "
                   src="https://www.pinupacc.com/images/dummy.png"
-                >
+                />
               </router-link>
               <div v-if="item.type">
                 <p
                   v-if="item.type === '1'"
                   class="
-                              text-green-800
+                    text-green-800
                     bg-green-50
                     text-xs
                     px-2
@@ -324,13 +395,14 @@
                     absolute
                     bottom-2
                     left-2
-                            "
+                  "
                 >
                   {{ item.typename[$i18n.locale] }}
                 </p>
                 <p
                   v-else
-                  class="text-light-orange
+                  class="
+                    text-light-orange
                     bg-orange-50
                     text-xs
                     px-2
@@ -340,7 +412,8 @@
                     w-20
                     absolute
                     bottom-2
-                    left-2"
+                    left-2
+                  "
                 >
                   {{ item.typename[$i18n.locale] }}
                 </p>
@@ -372,20 +445,24 @@
                 <div class="flex items-center gap-2">
                   <p
                     v-if="item.pricetype === 'contract'"
-                    class="
-                              text-green-600 font-medium text-lg
-                            "
+                    class="text-green-600 font-medium text-lg"
                   >
-                    {{ $t('text.byAgreement') }}
+                    {{ $t("text.byAgreement") }}
                   </p>
-                  <p v-else-if="item.type === '1'" class="text-green-600 font-medium text-lg">
+                  <p
+                    v-else-if="item.type === '1'"
+                    class="text-green-600 font-medium text-lg"
+                  >
                     {{ item.price }}
                   </p>
                   <p v-else class="text-light-orange font-medium text-lg">
                     {{ item.price }}
                   </p>
-                  <p v-if="item.pricetype !== 'contract'" class="text-gray-500 flex items-center lowercase text-sm">
-                    {{ $t('word.sum') }}
+                  <p
+                    v-if="item.pricetype !== 'contract'"
+                    class="text-gray-500 flex items-center lowercase text-sm"
+                  >
+                    {{ $t("word.sum") }}
                   </p>
                 </div>
                 <div class="flex items-center gap-2">
@@ -427,15 +504,34 @@
                 @click="changeProduct(item)"
               >
                 <i class="bx bx-edit" />
-                <span class="ml-2">{{ $t('word.change') }}</span>
+                <span class="ml-2">{{ $t("word.change") }}</span>
               </button>
               <button
-                class="p-1 flex bg-yellow-500 text-gray-500 justify-center items-center rounded-md"
+                class="
+                  p-1
+                  flex
+                  bg-yellow-500
+                  text-gray-500
+                  justify-center
+                  items-center
+                  rounded-md
+                "
               >
-                <p class="text-gray-500 bg-white py-1 px-2 font-medium text-xs mr-2 rounded-full">
+                <p
+                  class="
+                    text-gray-500
+                    bg-white
+                    py-1
+                    px-2
+                    font-medium
+                    text-xs
+                    mr-2
+                    rounded-full
+                  "
+                >
                   3
                 </p>
-                <span class="text-white">{{ $t('word.messages') }}</span>
+                <span class="text-white">{{ $t("word.messages") }}</span>
               </button>
             </div>
           </div>
@@ -452,105 +548,115 @@
 </template>
 
 <script>
-import Breadcrumbs from '~/components/ui/Breadcrumbs.vue'
-import FilterSwiper from '~/components/main/filter-swiper.vue'
+import Breadcrumbs from "~/components/ui/Breadcrumbs.vue";
+import FilterSwiper from "~/components/main/filter-swiper.vue";
 export default {
   auth: true,
   components: { Breadcrumbs, FilterSwiper },
-  data () {
+  data() {
     return {
       isFilterOpened: false,
       isSortOpened: false,
       items: [
-        { text: 'text.tradingFloor', link: '/trading', disabled: false },
-        { text: 'text.myAds', link: '/my-products', disabled: true }
+        { text: "text.tradingFloor", link: "/trading", disabled: false },
+        { text: "text.myAds", link: "/my-products", disabled: true },
       ],
       myProduct: [],
       query: {
         limit: 12,
-        offset: 1
-      }
-    }
+        offset: 1,
+      },
+      currentUser: {},
+    };
   },
   computed: {
-    pagination () {
-      return this.$store.state.crud.trading.pagination
-    }
+    pagination() {
+      return this.$store.state.crud.trading.pagination;
+    },
   },
   watch: {
-    '$route.query.offset' () {
-      if (this.$route.query.offset) { this.fetchDetail(this.$route.query) }
+    "$route.query.offset"() {
+      if (this.$route.query.offset) {
+        this.fetchDetail(this.$route.query);
+      }
     },
-    '$route.query.category_id' () {
-      if (this.$route.query.category_id) { this.fetchDetail(this.$route.query) }
-    }
+    "$route.query.category_id"() {
+      if (this.$route.query.category_id) {
+        this.fetchDetail(this.$route.query);
+      }
+    },
   },
-  mounted () {
-    this.fetchDetail(Object.keys(this.$route.query).length > 0
-      ? {
-          category_id: this.$route.query.category_id,
-          limit: this.$route.query.limit,
-          offset: this.$route.query.offset
-        }
-      : {
-          category_id: 'all',
-          limit: this.pagination.limit,
-          offset: this.pagination.page
-        })
+  created() {
+    if (!process.client) {
+      return;
+    }
+    this.currentUser = JSON.parse(localStorage.getItem("user_info"));
+  },
+  mounted() {
+    this.fetchDetail(
+      Object.keys(this.$route.query).length > 0
+        ? {
+            category_id: this.$route.query.category_id,
+            limit: this.$route.query.limit,
+            offset: this.$route.query.offset,
+          }
+        : {
+            category_id: "all",
+            limit: this.pagination.limit,
+            offset: this.pagination.page,
+          }
+    );
   },
   methods: {
-    openFilter () {
-      this.isFilterOpened = !this.isFilterOpened
+    openFilter() {
+      this.isFilterOpened = !this.isFilterOpened;
     },
-    openSort () {
-      this.isSortOpened = !this.isSortOpened
+    openSort() {
+      this.isSortOpened = !this.isSortOpened;
     },
-    pageChanged (offset) {
+    pageChanged(offset) {
       this.$router.push({
         path: this.localePath(this.$route.query.path),
-        query: this.setQuery(this.$route.query, offset)
-      })
+        query: this.setQuery(this.$route.query, offset),
+      });
     },
-    setQuery (query, offset) {
+    setQuery(query, offset) {
       if (query.category_id) {
         return {
           category_id: query.category_id,
           limit: query.limit ? query.limit : this.pagination.limit,
-          offset
-        }
+          offset,
+        };
       }
       return {
         limit: query.limit ? query.limit : this.pagination.limit,
-        offset
-      }
+        offset,
+      };
     },
-    changeProduct (data) {
+    changeProduct(data) {
       this.$router.push({
-        path: this.localePath(`/my-products/${data.id}`)
-      })
+        path: this.localePath(`/my-products/${data.id}`),
+      });
     },
     // eslint-disable-next-line require-await
-    async fetchDetail (query) {
-      this.setCurrentUser().then((user) => {
-        this.$store
-          .dispatch('crud/trading/getTradingPost', {
-            '_where[0][userid.id]': user.id,
-            '_where[0][isblocked]': false,
-            _sort: 'created_at:DESC',
-            _limit: query.limit,
-            _start: (query.offset - 1) * query.limit
-            // user_id: user.id
-          })
-          .then((res) => {
-            this.pageCount = res.count % 12 > 0 ? Math.trunc(res.count / 12) + 1 : res.count / 12
-            this.myProduct = res
-          })
-      })
+    async fetchDetail(query) {
+      this.$store
+        .dispatch("crud/trading/getTradingPost", {
+          "_where[0][userid.id]": this.currentUser.id,
+          "_where[0][isblocked]": false,
+          _sort: "created_at:DESC",
+          _limit: query.limit,
+          _start: (query.offset - 1) * query.limit,
+          // user_id: user.id
+        })
+        .then((res) => {
+          this.pageCount =
+            res.count % 12 > 0
+              ? Math.trunc(res.count / 12) + 1
+              : res.count / 12;
+          this.myProduct = res;
+        });
     },
-    // eslint-disable-next-line require-await
-    async setCurrentUser () {
-      return this.$store.state.auth.user
-    }
-  }
-}
+  },
+};
 </script>

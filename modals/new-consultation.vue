@@ -26,7 +26,6 @@
           </svg>
         </div>
         <input
-          type="search"
           name="search"
           class="
                     bg-gray-100
@@ -38,6 +37,7 @@
                     pl-10
                     sm:text-sm
                     border-transparent
+                    py-2
                   "
           placeholder="Izlash"
         >

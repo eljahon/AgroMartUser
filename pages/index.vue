@@ -28,8 +28,8 @@
               <input
                 id="searchright"
                 v-model="query.filter"
-                class="search expandright"
-                type="search"
+                type="text"
+                class="search expandright py-2"
                 :placeholder="$t('word.search')"
                 @keyup.enter="searching($event.target.value)"
               />
@@ -72,9 +72,8 @@
               </div>
               <input
                 v-model="query.filter"
-                type="search"
                 name="search"
-                class="focus:ring-indigo-500 focus:border-indigo-500 md:border-r-0 block w-full rounded md:rounded-r-none pl-10 sm:text-sm border-gray-300 border"
+                class="focus:ring-indigo-500 py-2 focus:border-indigo-500 md:border-r-0 block w-full rounded md:rounded-r-none pl-10 sm:text-sm border-gray-300 border"
                 :placeholder="$t('text.enterRequest')"
                 @keyup.enter="searching($event.target.value)"
               />
