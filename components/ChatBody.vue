@@ -681,12 +681,21 @@ export default {
       console.log(`${this.consultant.username} leaved`);
     },
     async toRating () {
-      this.currentRoom.rate0to5 = this.rating
-      this.currentRoom.feedback = this.comment
+      let _currentRoom = {
+        chatroomtype: this.currentRoom.chatroomtype,
+        consultantID: this.currentRoom.consultantID.id,
+        id: this.currentRoom.id,
+        isCompleted: this.currentRoom.isCompleted,
+        istradingchat: this.currentRoom.istradingchat,
+        title: this.currentRoom.title,
+        userID: this.currentRoom.userID.id,
+        rate0to5: this.advice.rating,
+        comment: this.advice.comment
+      }
       await this.$store
         .dispatch('crud/chats/room/updateRooms', {
-          id: this.currentRoom.id,
-          data: { ...this.currentRoom }
+          id: _currentRoom.id,
+          data: { ..._currentRoom }
         })
         .then((res) => {
           this.fetchCurrentRoom()

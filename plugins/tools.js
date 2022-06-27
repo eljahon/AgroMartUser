@@ -1,6 +1,13 @@
 import Vue from 'vue'
-
+import VueRouter from "vue-router";
+const { isNavigationFailure, NavigationFailureType } = VueRouter;
 const tools = {
+  fixDoubleRouting(err) {
+    if (isNavigationFailure(err, NavigationFailureType.redirected)) {
+      err.to.path;
+      err.from.path;
+    }
+  },
   removeLangPath(str) {
     return str.slice(3, str.length)
   },

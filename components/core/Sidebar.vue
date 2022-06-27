@@ -39,7 +39,7 @@
         <div class="mt-5 flex-1 h-0 overflow-y-auto">
           <nav class="flex-1 px-2 py-4 b space-y-1">
             <div v-for="(item, key) in sidebar" :key="key">
-              <div v-if="item.children ">
+              <div v-if="item.children">
                 <a
                   class="
                     cursor-pointer
@@ -54,28 +54,33 @@
                   "
                   @click="menuWithChildClicked(item)"
                 >
-                  <span :class="item.current ? 'text-green-500' : 'text-gray-700'">{{
-                    item.title[$i18n.locale]
-                  }}</span>
+                  <span
+                    :class="item.current ? 'text-green-500' : 'text-gray-700'"
+                    >{{ item.title[$i18n.locale] }}</span
+                  >
                   <font-awesome-icon
                     class="ml-4 flex-shrink-0 h-6 w-6"
                     :class="item.current ? 'text-green-500' : 'text-gray-700'"
                     :icon="item.current ? 'chevron-up' : 'chevron-down'"
                   />
                 </a>
-                <div v-for="(child, k) in item.children" v-show="item.current" :key="k">
+                <div
+                  v-for="(child, k) in item.children"
+                  v-show="item.current"
+                  :key="k"
+                >
                   <div v-if="!child.hide || child.hide == null">
                     <a
-                    :to="child.route"
-                    :class="
-                      child.current
-                        ? 'cursor-pointer  text-white group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                        : 'cursor-pointer text-gray-300  hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                    "
-                    @click="menuChildClicked(item, child)"
-                  >
-                    {{ child.title[$i18n.locale] }}
-                  </a>
+                      :to="child.route"
+                      :class="
+                        child.current
+                          ? 'cursor-pointer  text-white group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                          : 'cursor-pointer text-gray-300  hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                      "
+                      @click="menuChildClicked(item, child)"
+                    >
+                      {{ child.title[$i18n.locale] }}
+                    </a>
                   </div>
                 </div>
               </div>
@@ -167,7 +172,11 @@
                       />
                     </div>
                   </div>
-                  <div v-for="(child, k) in item.children" v-show="item.current === true" :key="k">
+                  <div
+                    v-for="(child, k) in item.children"
+                    v-show="item.current === true"
+                    :key="k"
+                  >
                     <div v-if="!child.hide || child.hide === null">
                       <a
                         :to="child.route"
@@ -184,7 +193,10 @@
                           rounded-md
                         "
                         :class="
-                          child.current
+                          child.id ===
+                          ($route.query.category_id !== 'all'
+                            ? parseInt($route.query.category_id)
+                            : $route.query.category_id)
                             ? 'text-green-600 hover:text-green-600'
                             : 'text-gray-500 hover:text-gray-700'
                         "
@@ -209,7 +221,10 @@
                     rounded-md
                   "
                   :class="
-                    item.current
+                    item.id ===
+                    ($route.query.category_id !== 'all'
+                      ? parseInt($route.query.category_id)
+                      : $route.query.category_id)
                       ? 'text-green-600 hover:text-green-600'
                       : 'text-gray-500 hover:text-gray-700'
                   "
@@ -227,99 +242,106 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState } from "vuex";
 export default {
-  name: 'Sidebar',
+  name: "Sidebar",
   props: {
     name: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       locale: {
-        created_at: '2021-11-11T23:25:16.744559+05:00',
-        id: 'all',
-        name: { uz: 'word.all', ru: 'Все', en: 'All' },
+        created_at: "2021-11-11T23:25:16.744559+05:00",
+        id: "all",
+        name: { uz: "word.all", ru: "Все", en: "All" },
         children: [],
         current: false,
         status: true,
-        updated_at: '2021-11-11T23:25:16.744646+05:00'
-      }
-    }
+        updated_at: "2021-11-11T23:25:16.744646+05:00",
+      },
+    };
   },
   computed: {
     ...mapState({
-      sidebar: state => state.sidebar.sidebar
+      sidebar: (state) => state.sidebar.sidebar,
     }),
     ...mapGetters({
       // sidebar: 'sidebar/getSidebar'
-    })
+    }),
   },
-  mounted () {
-    if (this.$route.path.length <= this.name.length + 4 || this.$route.path.search('all') > -1) {
-      this.menuClicked(this.locale)
+  mounted() {
+    if (
+      this.$route.path.length <= this.name.length + 4 ||
+      this.$route.path.search("all") > -1
+    ) {
+      this.menuClicked(this.locale);
     }
   },
   methods: {
-    showHideMenu () {
-      this.showMenuInMobile = !this.showMenuInMobile
+    showHideMenu() {
+      this.showMenuInMobile = !this.showMenuInMobile;
     },
-    menuChildClicked (item, child) {
-      const sidebar = JSON.parse(JSON.stringify(this.sidebar))
+    menuChildClicked(item, child) {
+      const sidebar = JSON.parse(JSON.stringify(this.sidebar));
       sidebar.forEach((el) => {
         if (el.id === item.id) {
           return item.children.forEach((ch) => {
             if (child === ch) {
-              ch.current = true
+              ch.current = true;
             } else {
-              ch.current = false
+              ch.current = false;
             }
-            this.locale.current = false
-          })
+            this.locale.current = false;
+          });
         }
-      })
-      this.$store.dispatch('sidebar/changeSidebar', sidebar)
+      });
+      this.$store.dispatch("sidebar/changeSidebar", sidebar);
       this.$router.push({
-        path: this.localePath(`${this.$route.path.slice(0, this.name.length + 4)}`),
-        query: this.checkQuery(item, child)
-      })
+        path: this.localePath(
+          `${this.$route.path.slice(0, this.name.length + 4)}`
+        ),
+        query: this.checkQuery(item, child),
+      });
     },
-    menuWithChildClicked (item) {
-      let sidebar =  JSON.parse(JSON.stringify(this.sidebar))
+    menuWithChildClicked(item) {
+      let sidebar = JSON.parse(JSON.stringify(this.sidebar));
       sidebar.forEach((menu) => {
         if (menu.id === item.id) {
-          menu.current = !menu.current
+          menu.current = !menu.current;
           menu.children.forEach((child) => {
-            child.current = false
-          })
+            child.current = false;
+          });
         } else {
-          menu.current = false
+          menu.current = false;
         }
-      })
-      this.locale.current = false
-      this.$store.dispatch('sidebar/changeSidebar', sidebar)
+      });
+      this.locale.current = false;
+      this.$store.dispatch("sidebar/changeSidebar", sidebar);
     },
-    menuClicked (item) {
-      const sidebar = JSON.parse(JSON.stringify(this.sidebar))
-      if (item.id === 'all') {
-        this.locale.current = !this.locale.current
+    menuClicked(item) {
+      const sidebar = JSON.parse(JSON.stringify(this.sidebar));
+      if (item.id === "all") {
+        this.locale.current = !this.locale.current;
       }
       sidebar.forEach((menu) => {
         if (item === menu) {
-          menu.current = item.id !== 'all'
+          menu.current = item.id !== "all";
         } else {
-          menu.current = false
+          menu.current = false;
         }
-      })
-      this.$store.dispatch('sidebar/changeSidebar', sidebar)
+      });
+      this.$store.dispatch("sidebar/changeSidebar", sidebar);
       this.$router.push({
-        path: this.localePath(`${this.$route.path.slice(0, this.name.length + 4)}`),
-        query: this.checkQuery(item, {})
-      })
+        path: this.localePath(
+          `${this.$route.path.slice(0, this.name.length + 4)}`
+        ),
+        query: this.checkQuery(item, {}),
+      });
     },
-    checkQuery (parent, child) {
+    checkQuery(parent, child) {
       // if (parent.id === 'all') {
       //   return {
       //     limit: this.$route.query.limit ? this.$route.query.limit : 12,
@@ -330,22 +352,22 @@ export default {
         return {
           category_id: parent.id,
           limit: 12,
-          offset: 1
-        }
+          offset: 1,
+        };
       }
       if (Object.keys(child).length > 0) {
         return {
           category_id: child.id,
           limit: 12,
-          offset: 1
-        }
+          offset: 1,
+        };
       }
       return {
         category_id: parent.id,
         limit: 12,
-        offset: 1
-      }
-    }
-  }
-}
+        offset: 1,
+      };
+    },
+  },
+};
 </script>
