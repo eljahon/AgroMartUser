@@ -62,6 +62,9 @@ export default function ({ $axios, redirect, $auth, app }) {
       return
     }
     if (error.response && error.response.status === 401) {
+      localStorage.removeItem('local')
+      localStorage.removeItem('user_info')
+      $auth.logout()
       Vue.prototype.$snotify.error('Not Authenticated: Sorry, you have to be logged in to access this!')
       return
     }
