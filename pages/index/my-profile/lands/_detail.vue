@@ -320,9 +320,6 @@ export default {
           })
           .then((res) => {
             this.field = res;
-            if (this.$refs.leaflet) {
-              this.$refs.leaflet.renderPolygon(res.polygon);
-            }
           });
       }
     },

@@ -126,15 +126,16 @@
           </div>
         </div>
       </div>
-      <div
-        :class="
+        <!-- :class="
           $route.query && $route.query.field_id ? 'block md:hidden' : 'hidden'
-        "
+        " -->
+      <div
         class="md:col-span-8 md:block"
       >
+        <!-- <div id="map-wrap" class="relative" v-if="!iframeLoading"> -->
         <div id="map-wrap" class="relative" v-if="!iframeLoading">
           <iframe
-            :src="`http://localhost:4044/#/leaflet?field=${field.id}`"
+            :src="`http://localhost:4044/#/leaflet?field=${selectedField.id}`"
             frameborder="0"
             scrolling="no"
             style="height: calc(72vh - 0px); width: 100%"
@@ -359,13 +360,14 @@ export default {
       list: false,
       value1: new Date(2019, 9, 9),
       fields: [],
-      field: {},
+      selectedField: {},
       iframeLoading: false,
     };
   },
   watch: {
     "$route.query.field_id"() {
       if (this.$route.query && this.$route.query.field_id)
+        console.log('Field changed: ', this.$route.query.field_id);
         this.getPolygon().then(() => {
           this.iframeLoading = false;
         });
@@ -383,17 +385,16 @@ export default {
         query: {},
       });
     },
-    toFieldDetail(field) {
+    toFieldDetail(data) {
       this.iframeLoading = true;
       this.$router.push({
-        path: this.localePath(`/my-profile/lands/${field.id}`),
+        path: this.localePath(`/my-profile/lands/${data.id}`),
       });
     },
-    toChangeLocation(field) {
+    toChangeLocation(data) {
       this.iframeLoading = true;
-      this.field = field;
       this.$router.push({
-        query: { field_id: field.id },
+        query: { field_id: data.id },
       });
     },
     async getPolygon() {
@@ -406,10 +407,8 @@ export default {
             id: this.$route.query.field_id,
           })
           .then((res) => {
-            this.field = res;
-            // if (this.$refs.leaflet) {
-            //   this.$refs.leaflet.renderPolygon(res.polygon);
-            // }
+            this.selectedField = res
+            this.iframeLoading = false
           });
       }
     },

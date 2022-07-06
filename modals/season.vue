@@ -2,7 +2,7 @@
   <div class="p-4">
     <div class="flex items-center pb-6 justify-between">
       <div class="text-gray-700 text-lg font-medium">
-        {{ season.id ? $t('text.aditSeason') : $t('text.addSeason') }}
+        {{ season.id ? $t('text.editSeason') : $t('text.addSeason') }}
       </div>
       <div
         class="float-right text-center p-1 rounded-md hover:bg-gray-100 cursor-pointer"
@@ -125,7 +125,7 @@
         :class="$v.$invalid ? 'text-gray-600 bg-gray-100' : 'text-green-800 bg-green-100'"
         @click="onSubmit()"
       >
-        {{ $t('word.add') }}
+        {{ season.id ? $t('word.edit') : $t('word.add') }}
       </button>
     </div>
     <!-- </form>
@@ -185,6 +185,7 @@ export default {
           .dispatch(
             this.season.id ? 'crud/season/updateSeasons' : 'crud/season/postSeasons',
             {
+              id: this.season.id,
               data: this.season
             }
           )
