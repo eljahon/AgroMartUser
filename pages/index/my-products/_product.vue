@@ -428,7 +428,12 @@
             :reduce="(region) => region.id"
             :multiple="true"
           ></v-select>
-          <alert-error v-if="isAlert" class="mt-2" text="Yetkazib berish joylarini tanlang" @onCloseAlert="closeAlert()" />
+          <alert-error
+            v-if="isAlert"
+            class="mt-2"
+            text="Yetkazib berish joylarini tanlang"
+            @onCloseAlert="closeAlert()"
+          />
           <!-- <div class="w-full flex flex-col items-center mx-auto relative">
             <div class="w-full">
             </div>
@@ -701,7 +706,7 @@
               py-2
             "
             :class="
-              trade.gallery.length > 0
+              trade.gallery && trade.gallery.length > 0
                 ? 'lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-1'
                 : 'grid-cols-1'
             "
@@ -726,33 +731,35 @@
                 </div>
               </div>
             </div>
-            <div
-              v-for="(data, index) in trade.gallery"
-              v-show="trade.gallery.length > 0"
-              :key="index"
-              class="gallery relative"
-            >
-              <img
-                class="rounded-md"
-                :src="$tools.getFileUrl(data)"
-                @click="openLightGallery(gallery, index, true)"
-              />
+            <div v-if="trade.gallery">
               <div
-                class="
-                  rounded-md
-                  px-2
-                  py-1
-                  mt-1
-                  w-full
-                  border-2 border-red-600
-                  hover:bg-red-100
-                  align-middle
-                  text-center
-                  cursor-pointer
-                "
-                @click="deleteGalleryImage(data)"
+                v-for="(data, index) in trade.gallery"
+                v-show="trade.gallery.length > 0"
+                :key="index"
+                class="gallery relative"
               >
-                <i class="bx bx-trash text-2xl text-red-500" />
+                <img
+                  class="rounded-md"
+                  :src="$tools.getFileUrl(data)"
+                  @click="openLightGallery(gallery, index, true)"
+                />
+                <div
+                  class="
+                    rounded-md
+                    px-2
+                    py-1
+                    mt-1
+                    w-full
+                    border-2 border-red-600
+                    hover:bg-red-100
+                    align-middle
+                    text-center
+                    cursor-pointer
+                  "
+                  @click="deleteGalleryImage(data)"
+                >
+                  <i class="bx bx-trash text-2xl text-red-500" />
+                </div>
               </div>
             </div>
           </div>
@@ -849,7 +856,7 @@ export default {
         mainimage: null,
         unit: null,
         userid: null,
-        userregion: null
+        userregion: null,
       },
       deliveryRegions: [],
       text: {
@@ -922,11 +929,11 @@ export default {
         const index = this.trade.deliverableregions.findIndex(
           (el) => el === this.trade.userregion
         );
-        if (index  < 0) {
-          this.trade.deliverableregions.push(this.trade.userregion)
+        if (index < 0) {
+          this.trade.deliverableregions.push(this.trade.userregion);
         }
       }
-    }
+    },
   },
   mounted() {
     this.fetchDirectories().then(() => {
@@ -935,7 +942,7 @@ export default {
   },
   methods: {
     closeAlert() {
-      this.isAlert = false
+      this.isAlert = false;
     },
     openLightGallery(gallery, index, isOpen) {
       this.lightGalleryPhotos = gallery;
@@ -1064,12 +1071,15 @@ export default {
         this.$tools.focusI("userregion");
         return;
       }
-      if (this.trade.hasdelivery && this.trade.deliverableregions.length === 0) {
-        this.isAlert = true
+      if (
+        this.trade.hasdelivery &&
+        this.trade.deliverableregions.length === 0
+      ) {
+        this.isAlert = true;
         return;
       }
       if (!this.$v.$invalid) {
-        console.log('Submitted', this.trade)
+        console.log("Submitted", this.trade);
         this.trade.category =
           Object.keys(this.subcategory).length > 0
             ? this.subcategory
@@ -1120,13 +1130,15 @@ export default {
             } else {
               this.category = this.trade.category;
             }
-            this.trade.deliverableregions = res.deliverableregions.map(reg => {
-              return {
-                id: reg.id,
-                name: reg.name[this.$i18n.locale]
+            this.trade.deliverableregions = res.deliverableregions.map(
+              (reg) => {
+                return {
+                  id: reg.id,
+                  name: reg.name[this.$i18n.locale],
+                };
               }
-            })
-            this.trade.userregion = res.userregion ? res.userregion.id : null
+            );
+            this.trade.userregion = res.userregion ? res.userregion.id : null;
           });
       }
     },
