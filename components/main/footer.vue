@@ -16,10 +16,9 @@
             </div>
             <div>
               <div class="leading-9">
-                <div @click="toTermsOfService()">
+                <router-link :to="{path: localePath('/terms-of-service')}">
                   {{ $t('text.termsOfUse') }}
-                </div>
-                <!-- <div>Yordam</div> -->
+                </router-link>
               </div>
               <div class="mt-3">
                 <div class="font-semibold text-lg text-white">
