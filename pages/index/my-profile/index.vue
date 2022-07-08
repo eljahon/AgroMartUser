@@ -201,7 +201,7 @@ export default {
       this.$root.$once("image-editor-modal", (item) => {
         if (item !== "canceled") {
           console.log("AVatar: ", item);
-          this.avatar = item.url;
+          this.avatar = item.thumbnail;
         }
       });
     },
@@ -222,7 +222,7 @@ export default {
       this.openImageEditor("avatar", url);
       this.$root.$once("image-editor-modal", (item) => {
         if (item !== "canceled") {
-          this.avatar = item.url;
+          this.avatar = item.thumbnail;
         }
       });
     },

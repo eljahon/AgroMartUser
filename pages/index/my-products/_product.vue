@@ -953,7 +953,7 @@ export default {
       this.openImageEditor("4:3", null);
       this.$root.$once("image-editor-modal", (item) => {
         if (item !== "canceled") {
-          this.trade.gallery.push(item.url);
+          this.trade.gallery.push(item.thumbnail);
         }
       });
     },
@@ -961,7 +961,7 @@ export default {
       this.openImageEditor("4:3", null);
       this.$root.$once("image-editor-modal", (item) => {
         if (item !== "canceled") {
-          this.trade.mainimage = item.url;
+          this.trade.mainimage = item.thumbnail;
         }
       });
     },
@@ -969,7 +969,7 @@ export default {
       this.openImageEditor("4:3", url);
       this.$root.$once("image-editor-modal", (item) => {
         if (item !== "canceled") {
-          this.trade.mainimage = item.url;
+          this.trade.mainimage = item.thumbnail;
         }
       });
     },
