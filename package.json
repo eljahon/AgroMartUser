@@ -32,6 +32,7 @@
     "lodash.range": "^3.2.0",
     "nuxt": "^2.15.8",
     "nuxt-i18n": "^6.28.1",
+    "nuxt-precompress": "^0.5.9",
     "socket.io-client": "^4.5.1",
     "swiper": "^6.5.0",
     "tiptap": "^1.32.2",

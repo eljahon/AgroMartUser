@@ -2,7 +2,7 @@ import i18n from './utils/i18n'
 import appConfig from './app.config'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  // ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -36,6 +36,7 @@ export default {
     '~/plugins/other-libraries.js',
     '~/plugins/socket.client',
     '~/plugins/axios.js',
+    '~/plugins/AllApi.js',
     { src: '~/plugins/client-libraries', mode: 'client' },
     '~/plugins/tools.js',
     '~/plugins/storageName.js',
@@ -93,9 +94,34 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     'vue-currency-filter/nuxt',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    'nuxt-precompress'
   ],
+  nuxtPrecompress: {
+    enabled: true,
+    report: false,
+    test: /\.(js|css|html|txt|xml|svg)$/,
+    middleware: {
+      enabled: true,
+      enabledStatic: true,
+      encodingsPriority: ['br', 'gzip'],
+    },
 
+    gzip: {
+      enabled: true,
+      filename: '[path].gz[query]',
+      threshold: 10240,
+      minRatio: 0.8,
+      compressionOptions: { level: 9 },
+    },
+    brotli: {
+      enabled: true,
+      filename: '[path].br[query]',
+      compressionOptions: { level: 11 },
+      threshold: 10240,
+      minRatio: 0.8,
+    },
+  },
   loading: {
     name: 'chasing-dots',
     color: '#ff5638',
