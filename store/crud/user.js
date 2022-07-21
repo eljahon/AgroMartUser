@@ -24,7 +24,7 @@ export const mutations = {
 export const actions = {
   // get
   getUsers ({ commit, state }, payload) {
-    commit('LOAD_USERS', true)
+    // commit('LOAD_USERS', true)
     return new Promise((resolve, reject) => {
       this.$axios.$get('/users/', { params: payload }).then((res) => {
         this.$axios.$get('/users/count', { params: payload }).then((count) => {
@@ -41,7 +41,7 @@ export const actions = {
         commit('ERROR_USERS', error)
         reject(error)
       }).finally(() => {
-        commit('LOAD_USERS', false)
+        // commit('LOAD_USERS', false)
       })
     })
   },

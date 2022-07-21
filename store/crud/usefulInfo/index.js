@@ -24,7 +24,7 @@ export const mutations = {
 export const actions = {
   // get
   getUsefulInformation ({ commit, state }, payload) {
-    commit('LOAD_USEFUL_INFORMATION', true)
+    // commit('LOAD_USEFUL_INFORMATION', true)
     return new Promise((resolve, reject) => {
       this.$axios.$get(`/usefullinfo/${payload.locale}`, { params: payload.query }).then((res) => {
         this.$axios.$get(`/usefullinfo/${payload.locale}/count`, { params: payload.query }).then((count) => {
@@ -41,7 +41,7 @@ export const actions = {
         commit('ERROR_USEFUL_INFORMATION', error)
         reject(error)
       }).finally(() => {
-        commit('LOAD_USEFUL_INFORMATION', false)
+        // commit('LOAD_USEFUL_INFORMATION', false)
       })
     })
   },

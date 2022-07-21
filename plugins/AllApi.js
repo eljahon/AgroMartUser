@@ -1,6 +1,7 @@
 export default function (context,inject) {
 inject ('AllApi', {
-  getHomeData,getVideo
+  getHomeData,getVideo,
+  getAllOnlineConsultation,
 })
   async function getHomeData () {
   const data = {
@@ -67,5 +68,46 @@ try {
 
 }
 return videos;
+  }
+  async function getSingilOnlineConsultation (query) {
+  let data = {}
+    await context.store.dispatch('crud/user/getUsers',
+      {
+        '_where[0][role.id][0]': 3,
+        '_where[0][role.id][1]': 7,
+        '_where[0][blocked]': false,
+        '_where[0][consultantcategory.id]': query.category_id !== 'all' ? query.category_id : null,
+        _limit: query.limit,
+        _start: (query.offset - 1) * query.limit
+      }
+    ).then((res) => {
+      data.consultation = res
+    })
+  }
+  async  function getAllOnlineConsultation (query) {
+    let categories = [];
+    let data = {
+      consultation: [],
+      categories:[]
+    }
+  await  context.store.dispatch('crud/consultation/category/getCategoryConsultation').then((res) => {
+      data.categories = res
+        data.categories.forEach((category) => {
+        category.current = false
+      })
+    });
+    await context.store.dispatch('crud/user/getUsers',
+      {
+        '_where[0][role.id][0]': 3,
+        '_where[0][role.id][1]': 7,
+        '_where[0][blocked]': false,
+        '_where[0][consultantcategory.id]': query.category_id !== 'all' ? query.category_id : null,
+        _limit: query.limit,
+        _start: (query.offset - 1) * query.limit
+      }
+    ).then((res) => {
+      data.consultation = res
+    })
+return data
   }
 }

@@ -2,7 +2,7 @@ import i18n from './utils/i18n'
 import appConfig from './app.config'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  // ssr: false,
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -97,31 +97,6 @@ export default {
     'cookie-universal-nuxt',
     'nuxt-precompress'
   ],
-  nuxtPrecompress: {
-    enabled: true,
-    report: false,
-    test: /\.(js|css|html|txt|xml|svg)$/,
-    middleware: {
-      enabled: true,
-      enabledStatic: true,
-      encodingsPriority: ['br', 'gzip'],
-    },
-
-    gzip: {
-      enabled: true,
-      filename: '[path].gz[query]',
-      threshold: 10240,
-      minRatio: 0.8,
-      compressionOptions: { level: 9 },
-    },
-    brotli: {
-      enabled: true,
-      filename: '[path].br[query]',
-      compressionOptions: { level: 11 },
-      threshold: 10240,
-      minRatio: 0.8,
-    },
-  },
   loading: {
     name: 'chasing-dots',
     color: '#ff5638',
@@ -173,10 +148,10 @@ export default {
 
   env: {
     // baseURL: process.env.VUE_APP_BASE_URL || 'http://localhost:3000',
-    WS_URL: process.env.WS_URL || 'http://localhost:3000'
+    WS_URL: process.env.WS_URL ||"https://admin.agsat.uz/"
   },
   axios: {
-    baseURL: 'http://localhost:4000' // Used as fallback if no runtime config is provided
+    baseURL: "https://admin.agsat.uz/" // Used as fallback if no runtime config is provided
   },
   publicRuntimeConfig: {
     axios: {

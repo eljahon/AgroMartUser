@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
     <div class="px-4 lg:py-6 pb-6 md:flex block space-y-3 justify-between gap-6 sm:px-0">
-      <breadcrumbs :items="items" />
+      <breadcrumbs :items="items"/>
       <!-- <div class="md:flex hidden justify-end">
         <button
           type="button"
@@ -52,18 +52,18 @@
           >
             {{ $t('text.allSections') }}
           </button>
-          <slideout-panel />
+          <slideout-panel/>
         </div>
       </div>
     </div>
 
     <div class="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-4">
       <div class="lg:block hidden">
-        <sidebar :name="'online-consultation'" />
+        <sidebar :sidebar="categories" :name="'online-consultation'"/>
       </div>
       <div class="xl:col-span-3 col-span-2 ">
         <main class="flex-1 relative focus:outline-none">
-          <online-consultation />
+          <online-consultation :consultation="consultation"/>
         </main>
       </div>
     </div>
@@ -76,6 +76,7 @@ import Breadcrumbs from '~/components/ui/Breadcrumbs.vue'
 import NewConsultation from '~/modals/new-consultation.vue'
 import mobileCategory from '~/components/MobileCategory.vue'
 import OnlineConsultation from '~/components/lists/online-consultation.vue'
+
 export default {
   auth: false,
   components: {
@@ -83,25 +84,40 @@ export default {
     Breadcrumbs,
     OnlineConsultation
   },
-  data () {
+  async asyncData({$AllApi, route}) {
+    const query = Object.keys(route.query).length > 0
+      ? {
+        category_id: route.query.category_id,
+        limit: route.query.limit,
+        offset: route.query.offset
+      }
+      : {
+        category_id: 'all',
+        limit: 12,
+        offset: 1
+      };
+    const categories = await $AllApi.getAllOnlineConsultation(query);
+    return {
+      ...categories
+    }
+  },
+  data() {
     return {
       showMenuInMobile: false,
       locale: this.$i18n.locale,
-      categories: [],
-      consultants: [],
       items: [
-        { text: 'text.onlineConsultation', link: '/online-consultation', disabled: false }
+        {text: 'text.onlineConsultation', link: '/online-consultation', disabled: false}
       ]
     }
   },
-  mounted () {
-    this.fetchConsultationCategories()
+  mounted() {
+    // this.fetchConsultationCategories()
   },
   methods: {
-    newConsultation () {
+    newConsultation() {
       this.$modal.show(
         NewConsultation,
-        { status: 'new-consultation' },
+        {status: 'new-consultation'},
         {
           height: '600',
           maxWidth: 400,
@@ -110,16 +126,17 @@ export default {
         }
       )
     },
-    fetchConsultationCategories () {
-      this.$store.dispatch('crud/consultation/category/getCategoryConsultation').then((res) => {
-        this.categories = res
-        this.categories.forEach((category) => {
-          category.current = false
-        })
-        this.$store.dispatch('sidebar/setSidebar', this.categories)
-      })
-    },
-    openCategories () {
+    // fetchConsultationCategories () {
+    //   this.$store.dispatch('crud/consultation/category/getCategoryConsultation').then((res) => {
+    //     this.categories = res
+    //     console.log(res)
+    //     this.categories.forEach((category) => {
+    //       category.current = false
+    //     })
+    //     this.$store.dispatch('sidebar/setSidebar', this.categories)
+    //   })
+    // },
+    openCategories() {
       this.$showPanel({
         component: mobileCategory,
         openOn: 'right',

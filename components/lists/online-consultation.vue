@@ -11,7 +11,7 @@
         gap-3
       "
     >
-      <div v-for="(consultant, index) in consultation" :key="index">
+      <div v-for="(consultant, index) in isListRender ?pageconsultation  : consultation" :key="index">
         <div class="col-span-3 flex gap-4 h-auto w-full md:px-0 px-4">
           <div class="gap-x-2 grid sm:grid-cols-1 grid-cols-3 bg-white rounded-md hover:shadow-lg shadow-md w-full">
             <div class="m-3">
@@ -84,9 +84,16 @@ import { mapState } from 'vuex'
 // const qs = require('qs')
 export default {
   auth: false,
+  props: {
+    consultation: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
-      consultation: [],
+      pageconsultation: [],
+      isListRender: false,
       pageCount: 1,
       query: {
         limit: 12,
@@ -112,17 +119,17 @@ export default {
     }
   },
   mounted () {
-    this.fetchData(Object.keys(this.$route.query).length > 0
-      ? {
-          category_id: this.$route.query.category_id,
-          limit: this.$route.query.limit,
-          offset: this.$route.query.offset
-        }
-      : {
-          category_id: 'all',
-          limit: this.pagination.limit,
-          offset: this.pagination.page
-        })
+    // this.fetchData(Object.keys(this.$route.query).length > 0
+    //   ? {
+    //       category_id: this.$route.query.category_id,
+    //       limit: this.$route.query.limit,
+    //       offset: this.$route.query.offset
+    //     }
+    //   : {
+    //       category_id: 'all',
+    //       limit: this.pagination.limit,
+    //       offset: this.pagination.page
+    //     })
   },
   methods: {
     pageChanged (offset) {
@@ -205,7 +212,8 @@ export default {
           _start: (query.offset - 1) * query.limit
         }
       ).then((res) => {
-        this.consultation = res
+        this.isListRender = true;
+        this.pageconsultation = res
       })
     }
   }

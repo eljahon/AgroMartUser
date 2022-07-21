@@ -22,7 +22,7 @@ export const mutations = {
 export const actions = {
   // get
   getPrice ({ commit }, payload) {
-    commit('LOAD_PRICE', true)
+    // commit('LOAD_PRICE', true)
     return new Promise((resolve, reject) => {
       this.$axios.$get('/pricelists', { params: payload }).then((res) => {
         commit('GET_PRICE', res)
@@ -31,7 +31,7 @@ export const actions = {
         commit('ERROR_PRICE', error)
         reject(error)
       }).finally(() => {
-        commit('LOAD_PRICE', false)
+        // commit('LOAD_PRICE', false)
       })
     })
   },

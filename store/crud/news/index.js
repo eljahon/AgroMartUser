@@ -26,7 +26,7 @@ export const mutations = {
 export const actions = {
   // get
   getNews ({ commit, state }, payload) {
-    commit('LOAD_NEWS', true)
+    // commit('LOAD_NEWS', true)
     return new Promise((resolve, reject) => {
       this.$axios.$get(`/news/${payload.locale}`, { params: payload.query }).then((res) => {
         this.$axios.$get(`/news/${payload.locale}/count`, { params: payload.query }).then((count) => {
@@ -43,7 +43,7 @@ export const actions = {
         commit('ERROR_NEWS', error)
         reject(error)
       }).finally(() => {
-        commit('LOAD_NEWS', false)
+        // commit('LOAD_NEWS', false)
       })
     })
   },

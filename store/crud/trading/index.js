@@ -26,7 +26,7 @@ export const mutations = {
 export const actions = {
   // get
   getTradingPost ({ commit, state }, payload) {
-    commit('LOAD_TRADING_POST', true)
+    // commit('LOAD_TRADING_POST', true)
     return new Promise((resolve, reject) => {
       this.$axios.$get('/tradingposts', { params: payload }).then((res) => {
         this.$axios.$get('/tradingposts/count', { params: payload }).then((count) => {
@@ -43,7 +43,7 @@ export const actions = {
         commit('ERROR_TRADING_POST', error)
         reject(error)
       }).finally(() => {
-        commit('LOAD_TRADING_POST', false)
+        // commit('LOAD_TRADING_POST', false)
       })
     })
   },

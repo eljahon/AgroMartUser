@@ -73,11 +73,19 @@ import Breadcrumbs from '~/components/ui/Breadcrumbs.vue'
 export default {
   name: 'UsefulInformationById',
   auth: false,
+  async asyncData ({store, route}) {
+    let informationDetail ={}
+    await store.dispatch('crud/usefulInfo/getUsefulInformationById', route.query).then((res) => {
+      informationDetail = res
+    });
+    return {
+      informationDetail
+    }
+  },
   components: { Breadcrumbs },
   data () {
     return {
-      loading: true,
-      informationDetail: {},
+      loading: false,
       information: [],
       items: [
         { text: 'text.usefulInformation', link: '/useful-information', disabled: 'true' }
@@ -85,19 +93,19 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.fetchDetail().then(() => {
-        this.loading = false
-      })
-    })
+    // this.$nextTick(() => {
+    //   this.fetchDetail().then(() => {
+    //     this.loading = false
+    //   })
+    // })
   },
   methods: {
 
-    async fetchDetail () {
-      await this.$store.dispatch('crud/usefulInfo/getUsefulInformationById', this.$route.query).then((res) => {
-        this.informationDetail = res
-      })
-    }
+    // async fetchDetail () {
+    //   await this.$store.dispatch('crud/usefulInfo/getUsefulInformationById', this.$route.query).then((res) => {
+    //     this.informationDetail = res
+    //   })
+    // }
   }
 }
 </script>

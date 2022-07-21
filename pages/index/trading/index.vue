@@ -124,6 +124,7 @@ export default {
     Trading,
     FilterSwiper
   },
+  async asyncData ({store}) {},
   data () {
     return {
       items: [{ text: 'text.tradingFloor', link: '/trading', disabled: false }],

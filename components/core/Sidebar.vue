@@ -243,13 +243,18 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-export default {
+export default
+{
   name: "Sidebar",
   props: {
     name: {
       type: String,
       required: true,
     },
+    sidebar: {
+      type: Array||Object,
+      required: true
+    }
   },
   data() {
     return {
@@ -264,14 +269,14 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapState({
-      sidebar: (state) => state.sidebar.sidebar,
-    }),
-    ...mapGetters({
-      // sidebar: 'sidebar/getSidebar'
-    }),
-  },
+  // computed: {
+  //   ...mapState({
+  //     sidebar: (state) => state.sidebar.sidebar,
+  //   }),
+  //   ...mapGetters({
+  //     // sidebar: 'sidebar/getSidebar'
+  //   }),
+  // },
   mounted() {
     if (
       this.$route.path.length <= this.name.length + 4 ||
@@ -322,6 +327,7 @@ export default {
       this.$store.dispatch("sidebar/changeSidebar", sidebar);
     },
     menuClicked(item) {
+      console.log(item)
       const sidebar = JSON.parse(JSON.stringify(this.sidebar));
       if (item.id === "all") {
         this.locale.current = !this.locale.current;
